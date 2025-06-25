@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let task of tasks">
+    {{ task.label }} - {{ task.completed ? 'Done' : 'Pending' }}
+    <button (click)="markTaskAsCompleted(task.id!)" *ngIf="!task.completed">Terminer</button>
+    <button (click)="markTaskAsIncomplete(task.id!)" *ngIf="task.completed">Annuler</button>
+  </li>
+</ul>
