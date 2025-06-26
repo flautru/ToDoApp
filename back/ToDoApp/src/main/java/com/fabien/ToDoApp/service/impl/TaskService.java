@@ -7,11 +7,11 @@ import java.util.List;
 public interface TaskService {
 
     List<Task> findAllTasks();
-    List<Task> findIncompleteTasks(boolean completed);
+    List<Task> findTasksByCompletedStatus(boolean completed);
     Task findTaskById(Long id);
     Task saveTask(Task task);
-    Task updateTask(Long id,Task task);
-    Task updateCompletedTaskById(Long id, boolean status);
+    Task updateTaskById(Long id, Task task);
+    Task updateCompletedStatusTaskById(Long id, boolean status);
     void deleteTaskById(Long id);
 
 }

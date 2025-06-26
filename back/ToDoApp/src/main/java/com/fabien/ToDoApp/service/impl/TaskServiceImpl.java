@@ -19,7 +19,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAll();
     }
 
-    public List<Task> findIncompleteTasks(boolean completed) {
+    public List<Task> findTasksByCompletedStatus(boolean completed) {
         return taskRepository.findByCompleted(completed);
     }
 
@@ -31,7 +31,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateCompletedTaskById(Long id, boolean status) {
+    public Task updateCompletedStatusTaskById(Long id, boolean status) {
         return taskRepository.findById(id).
                 map( task -> {
                     task.setCompleted(status);
@@ -40,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
     }
 
-    public Task updateTask(Long id, Task task) {
+    public Task updateTaskById(Long id, Task task) {
         return taskRepository.findById(id).
                 map( existingTask -> {
                     existingTask.setLabel(task.getLabel());

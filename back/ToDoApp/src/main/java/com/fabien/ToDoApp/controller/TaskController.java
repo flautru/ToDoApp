@@ -4,7 +4,6 @@ import com.fabien.ToDoApp.dto.TaskCompletionRequestDto;
 import com.fabien.ToDoApp.model.Task;
 import com.fabien.ToDoApp.service.impl.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ public class TaskController {
     public ResponseEntity<List<Task>> getTasks(@RequestParam(required = false) Boolean completed){
         List<Task> tasks;
         if(completed != null){
-            tasks = taskService.findIncompleteTasks(completed);
+            tasks = taskService.findTasksByCompletedStatus(completed);
         } else {
             tasks = taskService.findAllTasks();
         }
@@ -51,7 +50,7 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> saveTask(@PathVariable Long id,@RequestBody Task task){
-        Task updatedTask = taskService.updateTask(id,task);
+        Task updatedTask = taskService.updateTaskById(id,task);
         return ResponseEntity.ok(updatedTask);
     }
 
@@ -64,7 +63,7 @@ public class TaskController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<Task> updateCompletionStatus(@PathVariable Long id, @RequestBody TaskCompletionRequestDto requestDto){
-        Task updatedTask = taskService.updateCompletedTaskById(id, requestDto.isCompleted());
+        Task updatedTask = taskService.updateCompletedStatusTaskById(id, requestDto.isCompleted());
 
         return ResponseEntity.ok(updatedTask);
     }
