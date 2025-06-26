@@ -19,7 +19,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<List<Task>> getTasks(@RequestParam(required = false) Boolean completed){
+    public ResponseEntity<List<Task>> getAllTasksOrByCompletionStatus(@RequestParam(required = false) Boolean completed){
         List<Task> tasks;
         if(completed != null){
             tasks = taskService.findTasksByCompletedStatus(completed);
@@ -40,7 +40,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> saveTask(@RequestBody Task task){
+    public ResponseEntity<Task> createTaskById(@RequestBody Task task){
         Task createdTask = taskService.saveTask(task);
         URI location = URI.create("/tasks/" + createdTask.getId());
         return ResponseEntity.
@@ -49,7 +49,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> saveTask(@PathVariable Long id,@RequestBody Task task){
+    public ResponseEntity<Task> updateTaskById(@PathVariable Long id, @RequestBody Task task){
         Task updatedTask = taskService.updateTaskById(id,task);
         return ResponseEntity.ok(updatedTask);
     }
