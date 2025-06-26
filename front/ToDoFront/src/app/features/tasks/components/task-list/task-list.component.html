@@ -1,7 +1,35 @@
-<ul>
-  <li *ngFor="let task of tasks">
-    {{ task.label }} - {{ task.completed ? 'Done' : 'Pending' }}
-    <button (click)="markTaskAsCompleted(task.id!)" *ngIf="!task.completed">Terminer</button>
-    <button (click)="markTaskAsIncomplete(task.id!)" *ngIf="task.completed">Annuler</button>
-  </li>
-</ul>
+<div style="margin: 16px;">
+  <mat-button-toggle-group
+    name="statusFilter"
+    [(ngModel)]="statusFilter"
+    appearance="legacy"
+    color="primary"
+    exclusive
+    (change)="onFilterChange()">
+    <mat-button-toggle value="all">Toutes</mat-button-toggle>
+    <mat-button-toggle value="completed">Faites</mat-button-toggle>
+    <mat-button-toggle value="incomplete">En cours</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+<div class="task-list">
+    <mat-card class="task-card" *ngFor="let task of tasks"
+            [ngClass]="{ 'completed': task.completed, 'incomplete': !task.completed }">
+    <mat-card-title>
+      <mat-icon color="primary">{{ task.completed ? 'check_circle' : 'hourglass_empty' }}</mat-icon>
+      {{ task.label }}
+    </mat-card-title>
+
+    <mat-card-content>
+      {{ task.description }}
+    </mat-card-content>
+
+    <mat-card-actions>
+      <mat-chip [color]="task.completed ? 'primary' : 'warn'" selected>
+        {{ task.completed ? 'Fait' : 'En cours' }}
+      </mat-chip>
+      <button mat-raised-button color="accent" (click)="toggleCompletedStatus(task)">
+        {{ task.completed ? 'Annuler' : 'Terminer' }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

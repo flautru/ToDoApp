@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Task, TaskService } from '../../services/task.service';
 import { CommonModule } from '@angular/common';
-
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTableModule} from '@angular/material/table';
+import { MatCardActions, MatCardTitle, MatCardContent,MatCardModule } from '@angular/material/card';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-task-list',
-  imports: [CommonModule],
+  imports: [FormsModule,CommonModule,MatTableModule, MatButtonToggleModule,MatButtonModule, MatIconModule, MatCardActions,MatCardModule , MatCardTitle, MatChipsModule,MatCardContent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
   standalone: true
@@ -16,27 +23,43 @@ export class TaskListComponent implements OnInit {
   showCompleted: boolean = true;
   showPending: boolean = true;
 
-  constructor(private taskService: TaskService) {}
+  statusFilter: 'all' | 'completed' | 'incomplete' = 'all';
+
+  constructor(private taskService: TaskService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.loadTasks();
+    this.onFilterChange();
   }
 
   loadTasks(): void {
     this.taskService.getTasks().subscribe(tasks => {
+      console.log('Tasks fetched from service:', tasks);
       this.tasks = tasks;
     });
   }
 
-  markTaskAsIncomplete(id: number): void {
-  this.taskService.updateTaskStatus(id, false).subscribe(() => {
-      this.loadTasks();
-    });
-  }
-  markTaskAsCompleted(id: number): void {
-    this.taskService.updateTaskStatus(id, true).subscribe(() => {
-      this.loadTasks();
-    });
+  toggleCompletedStatus(task: Task): void {
+  const newStatus = !task.completed;
+  this.taskService.updateTaskStatus(task.id!, newStatus).subscribe({
+     next: () => {
+      task.completed = newStatus; // ✅ met à jour directement l'objet affiché
+    },
+    error: (err) => {
+      console.error("Erreur lors de la mise à jour :", err);
+      this.snackBar.open("Échec de la mise à jour du statut", "Fermer", { duration: 3000 });
+    }
+  });
   }
 
+  onFilterChange(): void {
+    if (this.statusFilter === 'completed') {
+      this.taskService.getTasks(true).subscribe(tasks => this.tasks = tasks);
+    } else if (this.statusFilter === 'incomplete') {
+      this.taskService.getTasks(false).subscribe(tasks => this.tasks = tasks);
+    } else {
+      this.taskService.getTasks().subscribe(tasks => this.tasks = tasks);
+    }
+  }
 }
+
+
