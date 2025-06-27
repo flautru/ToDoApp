@@ -13,7 +13,8 @@
 </div>
 <div class="task-list">
     <mat-card class="task-card" *ngFor="let task of tasks"
-            [ngClass]="{ 'completed': task.completed, 'incomplete': !task.completed }">
+            [ngClass]="{ 'completed': task.completed, 'incomplete': !task.completed }"
+            (click)="onTaskClick(task)">
     <mat-card-title>
       <mat-icon color="primary">{{ task.completed ? 'check_circle' : 'hourglass_empty' }}</mat-icon>
       {{ task.label }}
@@ -27,7 +28,7 @@
       <mat-chip [color]="task.completed ? 'primary' : 'warn'" selected>
         {{ task.completed ? 'Fait' : 'En cours' }}
       </mat-chip>
-      <button mat-raised-button color="accent" (click)="toggleCompletedStatus(task)">
+      <button mat-raised-button color="accent" (click)="toggleCompletedStatus(task); $event.stopPropagation()">
         {{ task.completed ? 'Annuler' : 'Terminer' }}
       </button>
     </mat-card-actions>

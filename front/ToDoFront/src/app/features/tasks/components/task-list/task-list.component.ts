@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Task, TaskService } from '../../services/task.service';
 import { CommonModule } from '@angular/common';
@@ -25,7 +26,7 @@ export class TaskListComponent implements OnInit {
 
   statusFilter: 'all' | 'completed' | 'incomplete' = 'all';
 
-  constructor(private taskService: TaskService, private snackBar: MatSnackBar) {}
+  constructor(private taskService: TaskService, private snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit(): void {
     this.onFilterChange();
@@ -42,7 +43,7 @@ export class TaskListComponent implements OnInit {
   const newStatus = !task.completed;
   this.taskService.updateTaskStatus(task.id!, newStatus).subscribe({
      next: () => {
-      task.completed = newStatus; // ✅ met à jour directement l'objet affiché
+      task.completed = newStatus;
     },
     error: (err) => {
       console.error("Erreur lors de la mise à jour :", err);
@@ -59,6 +60,11 @@ export class TaskListComponent implements OnInit {
     } else {
       this.taskService.getTasks().subscribe(tasks => this.tasks = tasks);
     }
+  }
+
+  onTaskClick(task: Task): void {
+    console.log('Task clicked:', task);
+    this.router.navigate([ 'tasks', task.id, 'edit']);
   }
 }
 

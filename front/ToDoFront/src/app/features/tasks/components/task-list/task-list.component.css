@@ -43,3 +43,7 @@ mat-card-actions {
   margin-top: auto;
   padding-top: 8px;
 }
+
+.task-card {
+  cursor: pointer;
+}
