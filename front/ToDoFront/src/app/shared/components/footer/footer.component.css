@@ -1,0 +1,8 @@
+footer {
+  border-top: 1px solid #ccc;
+}
+
+.custom-toolbar {
+  background-color: var(--main-purple); /* Couleur perso */
+  color: white;
+}
