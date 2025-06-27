@@ -20,6 +20,7 @@ export class TaskFormComponent implements OnInit {
   taskForm: FormGroup;
   isEditMode: boolean = false;
   taskId?: number;
+  originView: string = 'list';
 
    task: { label: string; description: string; completed: boolean } = {
     label: '',
@@ -36,6 +37,12 @@ export class TaskFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    console.log('TaskFormComponent initialized');
+
+    this.route.queryParams.subscribe(params => {
+      this.originView = params['from'] || 'list';
+    });
+    console.log('Origin view:', this.originView);
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       console.log('Task ID from route:', id);
@@ -58,16 +65,24 @@ export class TaskFormComponent implements OnInit {
 
     if (this.isEditMode && this.taskId) {
       this.taskService.putTask(this.taskId, taskData).subscribe(() => {
-        this.router.navigate(['/tasks']);
+        this.chooseViewReturn();
       });
     } else {
       this.taskService.postTask(taskData).subscribe(() => {
-        this.router.navigate(['/tasks']);
+        this.chooseViewReturn();
       });
     }
   }
 
   onCancel(): void {
-    this.router.navigate(['/tasks']);
+    this.chooseViewReturn();
+  }
+
+  chooseViewReturn(): void {
+    if (this.originView === 'card') {
+      this.router.navigate(['tasks/card']);  // ou le chemin exact de la vue carte
+    } else {
+      this.router.navigate(['tasks/list']);  // ou le chemin exact de la vue liste
+    }
   }
 }

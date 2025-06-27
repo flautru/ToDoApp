@@ -1,0 +1,8 @@
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0;
+  flex-wrap: wrap; /* Pour éviter les débordements en responsive */
+  gap: 16px;
+}

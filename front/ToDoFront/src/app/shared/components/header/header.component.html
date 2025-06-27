@@ -1,3 +1,9 @@
 <mat-toolbar class="custom-toolbar">
   <span>To do Application</span>
+   <span class="spacer"></span>
+<button matButton [matMenuTriggerFor]="menu">Taches</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="goListView()">Listes</button>
+  <button mat-menu-item (click)="goCardView()">Cartes</button>
+</mat-menu>
 </mat-toolbar>

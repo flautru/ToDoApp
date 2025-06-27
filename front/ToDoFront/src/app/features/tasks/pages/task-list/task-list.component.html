@@ -1,0 +1,15 @@
+<app-task-filter
+  [selected]="statusFilter"
+  (filterChanged)="onFilterChange($event)"
+  (addClicked)="onAddTask()">
+</app-task-filter>
+<mat-list>
+  <div mat-subheader>Tache</div>
+  @for (task of tasks; track task.id) {
+    <mat-list-item [ngClass]="{ 'completed': task.completed, 'incomplete': !task.completed }" class="task-item" (click)="onTaskClick(task)">
+      <mat-icon matListItemIcon>note</mat-icon>
+      <div matListItemTitle>{{task.label}}</div>
+      <div matListItemLine >{{task.completed ? "Fait" : "En cours"}}</div>
+    </mat-list-item>
+  }
+</mat-list>

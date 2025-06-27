@@ -10,26 +10,24 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
+import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
+
 @Component({
-  selector: 'app-task-list',
-  imports: [FormsModule,CommonModule,MatTableModule, MatButtonToggleModule,MatButtonModule, MatIconModule, MatCardActions,MatCardModule , MatCardTitle, MatChipsModule,MatCardContent],
-  templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.css',
+  selector: 'app-task-card',
+  imports: [FormsModule,CommonModule,MatTableModule, MatButtonToggleModule,MatButtonModule, MatIconModule, MatCardActions,MatCardModule , MatCardTitle, MatChipsModule,MatCardContent, TaskFilterComponent],
+  templateUrl: './task-card.component.html',
+  styleUrl: './task-card.component.css',
   standalone: true
 })
-export class TaskListComponent implements OnInit {
+export class TaskCardComponent implements OnInit {
   tasks: Task[] = [];
-  completedTasks: Task[] = [];
-  pendingTasks: Task[] = [];
-  showCompleted: boolean = true;
-  showPending: boolean = true;
 
   statusFilter: 'all' | 'completed' | 'incomplete' = 'all';
 
   constructor(private taskService: TaskService, private snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit(): void {
-    this.onFilterChange();
+    this.onFilterChange(this.statusFilter);
   }
 
   loadTasks(): void {
@@ -52,7 +50,11 @@ export class TaskListComponent implements OnInit {
   });
   }
 
-  onFilterChange(): void {
+  onFilterChange(filter?: 'all' | 'completed' | 'incomplete'): void {
+    if (filter) {
+      this.statusFilter = filter;
+    }
+
     if (this.statusFilter === 'completed') {
       this.taskService.getTasks(true).subscribe(tasks => this.tasks = tasks);
     } else if (this.statusFilter === 'incomplete') {
@@ -60,11 +62,15 @@ export class TaskListComponent implements OnInit {
     } else {
       this.taskService.getTasks().subscribe(tasks => this.tasks = tasks);
     }
-  }
+}
 
   onTaskClick(task: Task): void {
     console.log('Task clicked:', task);
-    this.router.navigate([ 'tasks', task.id, 'edit']);
+    this.router.navigate([ 'tasks', task.id, 'edit'], { queryParams: { from: 'card' } });
+  }
+
+  onAddTask(): void {
+    this.router.navigate(['tasks', 'new'], { queryParams: { from: 'card' } });
   }
 }
 

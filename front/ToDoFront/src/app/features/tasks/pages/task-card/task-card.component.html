@@ -1,16 +1,9 @@
-<div style="margin: 16px;">
-  <mat-button-toggle-group
-    name="statusFilter"
-    [(ngModel)]="statusFilter"
-    appearance="legacy"
-    color="primary"
-    exclusive
-    (change)="onFilterChange()">
-    <mat-button-toggle value="all">Toutes</mat-button-toggle>
-    <mat-button-toggle value="completed">Faites</mat-button-toggle>
-    <mat-button-toggle value="incomplete">En cours</mat-button-toggle>
-  </mat-button-toggle-group>
-</div>
+<app-task-filter
+  [selected]="statusFilter"
+  (filterChanged)="onFilterChange($event)"
+  (addClicked)="onAddTask()">
+</app-task-filter>
+
 <div class="task-list">
     <mat-card class="task-card" *ngFor="let task of tasks"
             [ngClass]="{ 'completed': task.completed, 'incomplete': !task.completed }"

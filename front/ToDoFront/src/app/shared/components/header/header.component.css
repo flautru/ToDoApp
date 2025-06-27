@@ -2,3 +2,13 @@
   background-color: var(--main-purple); /* Couleur perso */
   color: white;
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.custom-toggle-button{
+  background-color: var(--main-purple); /* Couleur perso */
+  color: white;
+}
+

@@ -1,0 +1,24 @@
+.task-item{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid var(--main-purple);
+  border-radius: 30px;
+  margin : 5px;
+}
+
+.mat-mdc-list-item-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.task-item.completed {
+  background-color: #e0f7fa;
+}
+
+.task-item.incomplete {
+  background-color: #fff3e0;
+}
+
+.task-item:hover {
+  background-color: #f4e0fa;
+}
