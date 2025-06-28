@@ -43,10 +43,6 @@ export class TaskService {
     return this.http.put<Task>(`${this.apiUrl}/${id}`, task);
   }
 
-  deleteTask(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
-  }
-
   updateTaskStatus(id: number, status: boolean): Observable<Task> {
     const url = `${this.apiUrl}/${id}/status`;
     const body: TaskCompletionRequestDto = { completed: status };
@@ -54,4 +50,7 @@ export class TaskService {
     return this.http.patch<Task>(url, body);
   }
 
+  deleteTask(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }
