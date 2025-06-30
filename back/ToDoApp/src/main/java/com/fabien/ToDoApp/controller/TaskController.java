@@ -3,6 +3,11 @@ package com.fabien.ToDoApp.controller;
 import com.fabien.ToDoApp.dto.TaskCompletionRequestDto;
 import com.fabien.ToDoApp.model.Task;
 import com.fabien.ToDoApp.service.impl.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +19,32 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
+@Tag(name = "Tâche", description = "Endpoints lié aux tâches")
 public class TaskController {
 
     private final TaskService taskService;
 
     @GetMapping
+    @Operation(
+            summary = "Retourne les taches",
+            description = "Retourne une liste de tâche. "
+                        + "Si completed=true, retourne uniquement les tâches complétées. "
+                        + "Si completed=false, retourne uniquement les tâches incompletées. "
+                        + "Si absent retourne toutes les tâches.",
+            parameters = {
+                    @Parameter(
+                            name = "completed",
+                            description = "Filtrer par tâches complétées ou non",
+                            examples = {
+                                    @ExampleObject(name = "Toutes les tâches", value = ""),
+                                    @ExampleObject(name = "Tâches complétées", value = "true"),
+                                    @ExampleObject(name = "Tâches non complétées", value = "false")
+                            }
+                    )
+            },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Liste des tâches retournée avec succès")
+            })
     public ResponseEntity<List<Task>> getAllTasksOrByCompletionStatus(@RequestParam(required = false) Boolean completed){
         List<Task> tasks;
         if(completed != null){
