@@ -8,7 +8,7 @@ describe('FooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FooterComponent]
+      imports: [FooterComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FooterComponent);
@@ -26,7 +26,9 @@ describe('FooterComponent', () => {
   });
 
   it('should have a mat-toolbar with custom-toolbar class', () => {
-    const toolbar = fixture.debugElement.query(By.css('mat-toolbar.custom-toolbar'));
+    const toolbar = fixture.debugElement.query(
+      By.css('mat-toolbar.custom-toolbar'),
+    );
     expect(toolbar).toBeTruthy();
   });
 });

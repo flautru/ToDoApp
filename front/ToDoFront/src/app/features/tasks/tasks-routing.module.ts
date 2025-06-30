@@ -7,13 +7,12 @@ import { TaskListComponent } from './pages/task-list/task-list.component';
 const routes: Routes = [
   { path: 'card', component: TaskCardComponent },
   { path: '', component: TaskListComponent },
-  { path: 'new', component: TaskFormComponent},
+  { path: 'new', component: TaskFormComponent },
   { path: ':id/edit', component: TaskFormComponent },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TasksRoutingModule { }
+export class TasksRoutingModule {}

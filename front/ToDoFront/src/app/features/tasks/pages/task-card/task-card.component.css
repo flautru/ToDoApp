@@ -20,7 +20,6 @@
 mat-card-title {
   font-weight: bold;
   gap: 8px;
-
 }
 
 mat-card-content {
@@ -51,4 +50,21 @@ mat-card-actions {
   padding: 16px;
   box-sizing: border-box;
   transition: background-color 0.3s ease;
+}
+
+.delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #9c27b0;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.delete-button:hover {
+  color: #7b1fa2;
+  border: 1px, solid, black;
 }

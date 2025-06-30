@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { TaskFormComponent } from './task-form.component';
 import { TaskService } from '../../services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +17,11 @@ describe('TaskFormComponent', () => {
   let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    taskServiceSpy = jasmine.createSpyObj('TaskService', ['getTaskById', 'putTask', 'postTask']);
+    taskServiceSpy = jasmine.createSpyObj('TaskService', [
+      'getTaskById',
+      'putTask',
+      'postTask',
+    ]);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
@@ -23,11 +32,11 @@ describe('TaskFormComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             paramMap: of({ get: (key: string) => null }),
-            queryParams: of({})
-          }
+            queryParams: of({}),
+          },
         },
-        { provide: Router, useValue: routerSpy }
-      ]
+        { provide: Router, useValue: routerSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskFormComponent);
@@ -45,7 +54,12 @@ describe('TaskFormComponent', () => {
   });
 
   it('should initialize in edit mode if id param is present', fakeAsync(() => {
-    const task = { id: 1, label: 'Test', description: 'Desc', completed: false };
+    const task = {
+      id: 1,
+      label: 'Test',
+      description: 'Desc',
+      completed: false,
+    };
     taskServiceSpy.getTaskById.and.returnValue(of(task));
     // Simule la présence d'un id dans la route
     (component as any).route.paramMap = of({ get: (key: string) => '1' });
@@ -58,8 +72,14 @@ describe('TaskFormComponent', () => {
 
   it('should call postTask on submit in create mode', () => {
     component.isEditMode = false;
-    component.taskForm.setValue({ label: 'A', description: 'B', completed: false });
-    taskServiceSpy.postTask.and.returnValue(of({id: 1, label: 'A', description: 'B', completed: false}));
+    component.taskForm.setValue({
+      label: 'A',
+      description: 'B',
+      completed: false,
+    });
+    taskServiceSpy.postTask.and.returnValue(
+      of({ id: 1, label: 'A', description: 'B', completed: false }),
+    );
     spyOn(component, 'chooseViewReturn');
     component.onSubmit();
     expect(taskServiceSpy.postTask).toHaveBeenCalled();
@@ -69,8 +89,14 @@ describe('TaskFormComponent', () => {
   it('should call putTask on submit in edit mode', () => {
     component.isEditMode = true;
     component.taskId = 2;
-    component.taskForm.setValue({ label: 'A', description: 'B', completed: true });
-    taskServiceSpy.putTask.and.returnValue(of({id: 1, label: 'A', description: 'B', completed: false}));
+    component.taskForm.setValue({
+      label: 'A',
+      description: 'B',
+      completed: true,
+    });
+    taskServiceSpy.putTask.and.returnValue(
+      of({ id: 1, label: 'A', description: 'B', completed: false }),
+    );
     spyOn(component, 'chooseViewReturn');
     component.onSubmit();
     expect(taskServiceSpy.putTask).toHaveBeenCalledWith(2, jasmine.any(Object));
@@ -78,7 +104,11 @@ describe('TaskFormComponent', () => {
   });
 
   it('should not submit if form is invalid', () => {
-    component.taskForm.setValue({ label: '', description: '', completed: false });
+    component.taskForm.setValue({
+      label: '',
+      description: '',
+      completed: false,
+    });
     spyOn(component, 'chooseViewReturn');
     component.onSubmit();
     expect(component.chooseViewReturn).not.toHaveBeenCalled();

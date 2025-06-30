@@ -1,15 +1,35 @@
 <app-task-filter
   [selected]="statusFilter"
   (filterChanged)="onFilterChange($event)"
-  (addClicked)="onAddTask()">
+  (addClicked)="onAddTask()"
+>
 </app-task-filter>
 
-<div class="task-list">
-    <mat-card class="task-card" *ngFor="let task of tasks"
-            [ngClass]="{ 'completed': task.completed, 'incomplete': !task.completed }"
-            (click)="onTaskClick(task)">
+<div *ngIf="loading" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="errorMessage && !loading" class="error">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="!loading && !errorMessage" class="task-list">
+  <mat-card
+    class="task-card"
+    *ngFor="let task of tasks"
+    [ngClass]="{ completed: task.completed, incomplete: !task.completed }"
+    (click)="onTaskClick(task)"
+  >
     <mat-card-title>
-      <mat-icon color="primary">{{ task.completed ? 'check_circle' : 'hourglass_empty' }}</mat-icon>
+      <button
+        class="delete-button"
+        (click)="confirmDelete(task); $event.stopPropagation()"
+      >
+        X
+      </button>
+      <mat-icon color="primary">{{
+        task.completed ? "check_circle" : "hourglass_empty"
+      }}</mat-icon>
       {{ task.label }}
     </mat-card-title>
 
@@ -19,10 +39,14 @@
 
     <mat-card-actions>
       <mat-chip [color]="task.completed ? 'primary' : 'warn'" selected>
-        {{ task.completed ? 'Fait' : 'En cours' }}
+        {{ task.completed ? "Fait" : "En cours" }}
       </mat-chip>
-      <button mat-raised-button color="accent" (click)="toggleCompletedStatus(task); $event.stopPropagation()">
-        {{ task.completed ? 'Annuler' : 'Terminer' }}
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="toggleCompletedStatus(task); $event.stopPropagation()"
+      >
+        {{ task.completed ? "Annuler" : "Terminer" }}
       </button>
     </mat-card-actions>
   </mat-card>

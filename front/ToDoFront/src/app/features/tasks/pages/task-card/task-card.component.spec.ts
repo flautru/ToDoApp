@@ -8,11 +8,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
 @Component({
   selector: 'app-task-filter',
-  template: ''
+  template: '',
 })
 class MockTaskFilterComponent {
   @Input() selected!: string;
-  @Output() filterChanged = new EventEmitter<'all' | 'completed' | 'incomplete'>();
+  @Output() filterChanged = new EventEmitter<
+    'all' | 'completed' | 'incomplete'
+  >();
   @Output() addClicked = new EventEmitter<void>();
 }
 
@@ -24,19 +26,24 @@ describe('TaskCardComponent', () => {
 
   const mockTasks: Task[] = [
     { id: 1, label: 'Task 1', description: 'Desc 1', completed: false },
-    { id: 2, label: 'Task 2', description: 'Desc 2', completed: true }
+    { id: 2, label: 'Task 2', description: 'Desc 2', completed: true },
   ];
 
   beforeEach(async () => {
-    taskServiceMock = jasmine.createSpyObj('TaskService', ['getTasks', 'updateTaskStatus']);
+    taskServiceMock = jasmine.createSpyObj('TaskService', [
+      'getTasks',
+      'updateTaskStatus',
+      'getFilteredTasks',
+      'deleteTask',
+    ]);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       imports: [MatSnackBarModule, TaskCardComponent, MockTaskFilterComponent],
       providers: [
         { provide: TaskService, useValue: taskServiceMock },
-        { provide: Router, useValue: routerMock }
-      ]
+        { provide: Router, useValue: routerMock },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskCardComponent);
@@ -44,63 +51,112 @@ describe('TaskCardComponent', () => {
   });
 
   afterEach(() => {
-    taskServiceMock.getTasks.calls.reset();
+    taskServiceMock.getFilteredTasks.calls.reset();
     taskServiceMock.updateTaskStatus.calls.reset();
     routerMock.navigate.calls.reset();
   });
 
   it('should create', () => {
-    taskServiceMock.getTasks.and.returnValue(of(mockTasks));
+    taskServiceMock.getFilteredTasks.and.returnValue(of(mockTasks));
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should load tasks on init', () => {
-    taskServiceMock.getTasks.and.returnValue(of(mockTasks));
+    taskServiceMock.getFilteredTasks.and.returnValue(of(mockTasks));
     fixture.detectChanges();
-    expect(taskServiceMock.getTasks).toHaveBeenCalled();
+    expect(taskServiceMock.getFilteredTasks).toHaveBeenCalled();
     expect(component.tasks.length).toBe(2);
   });
 
   it('should filter completed tasks', () => {
-    const completedTasks = mockTasks.filter(t => t.completed);
-    taskServiceMock.getTasks.and.returnValue(of(completedTasks));
+    const completedTasks = mockTasks.filter((t) => t.completed);
+    taskServiceMock.getFilteredTasks.and.returnValue(of(completedTasks));
 
     component.onFilterChange('completed');
 
-    expect(taskServiceMock.getTasks).toHaveBeenCalledWith(true);
+    expect(taskServiceMock.getFilteredTasks).toHaveBeenCalledWith('completed');
     expect(component.tasks).toEqual(completedTasks);
   });
 
   it('should filter incomplete tasks', () => {
-    const incompleteTasks = mockTasks.filter(t => !t.completed);
-    taskServiceMock.getTasks.and.returnValue(of(incompleteTasks));
+    const incompleteTasks = mockTasks.filter((t) => !t.completed);
+    taskServiceMock.getFilteredTasks.and.returnValue(of(incompleteTasks));
 
     component.onFilterChange('incomplete');
 
-    expect(taskServiceMock.getTasks).toHaveBeenCalledWith(false);
+    expect(taskServiceMock.getFilteredTasks).toHaveBeenCalledWith('incomplete');
     expect(component.tasks).toEqual(incompleteTasks);
   });
 
   it('should toggle task status', () => {
     const task = { ...mockTasks[0] };
-    taskServiceMock.updateTaskStatus.and.returnValue(of({ ...task, completed: true }));
+    taskServiceMock.updateTaskStatus.and.returnValue(
+      of({ ...task, completed: true }),
+    );
 
     component.toggleCompletedStatus(task);
 
-    expect(taskServiceMock.updateTaskStatus).toHaveBeenCalledWith(task.id!, true);
+    expect(taskServiceMock.updateTaskStatus).toHaveBeenCalledWith(
+      task.id!,
+      true,
+    );
     expect(task.completed).toBeTrue();
   });
 
   it('should navigate to task detail on click', () => {
     const task = mockTasks[0];
     component.onTaskClick(task);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['tasks', task.id, 'edit'], { queryParams: { from: 'card' } });
+    expect(routerMock.navigate).toHaveBeenCalledWith(
+      ['tasks', task.id, 'edit'],
+      { queryParams: { from: 'card' } },
+    );
   });
 
   it('should navigate to create task on add click', () => {
     component.onAddTask();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['tasks', 'new'], { queryParams: { from: 'card' } });
+    expect(routerMock.navigate).toHaveBeenCalledWith(['tasks', 'new'], {
+      queryParams: { from: 'card' },
+    });
+  });
+
+  it('should call deleteTask when confirmDelete is confirmed', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(component, 'deleteTask');
+    const task = mockTasks[0];
+    component.confirmDelete(task);
+    expect(component.deleteTask).toHaveBeenCalledWith(task.id!);
+  });
+
+  it('should not call deleteTask when confirmDelete is cancelled', () => {
+    spyOn(window, 'confirm').and.returnValue(false);
+    spyOn(component, 'deleteTask');
+    const task = mockTasks[0];
+    component.confirmDelete(task);
+    expect(component.deleteTask).not.toHaveBeenCalled();
+  });
+
+  it('should remove the task and show snackbar on successful delete', () => {
+    taskServiceMock.deleteTask.and.returnValue(of({}));
+    component.tasks = [...mockTasks];
+    component.deleteTask(mockTasks[0].id!);
+    expect(component.tasks.length).toBe(1);
+    expect(component.tasks[0].id).toBe(mockTasks[1].id);
+  });
+
+  it('should show error snackbar on delete error', () => {
+    const snackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
+    (component as any).snackBar = snackBar;
+    taskServiceMock.deleteTask.and.returnValue({
+      subscribe: (observer: any) => observer.error('Erreur API'),
+    } as any);
+    component.tasks = [...mockTasks];
+    component.deleteTask(mockTasks[0].id!);
+    expect(snackBar.open).toHaveBeenCalledWith(
+      'Échec de la suppression de la tâche',
+      'Fermer',
+      jasmine.any(Object),
+    );
   });
 });
 describe('TaskCardComponent DOM', () => {
@@ -111,24 +167,29 @@ describe('TaskCardComponent DOM', () => {
 
   const mockTasks: Task[] = [
     { id: 1, label: 'Task 1', description: 'Desc 1', completed: false },
-    { id: 2, label: 'Task 2', description: 'Desc 2', completed: true }
+    { id: 2, label: 'Task 2', description: 'Desc 2', completed: true },
   ];
 
   beforeEach(async () => {
-    taskServiceMock = jasmine.createSpyObj('TaskService', ['getTasks', 'updateTaskStatus']);
+    taskServiceMock = jasmine.createSpyObj('TaskService', [
+      'getTasks',
+      'updateTaskStatus',
+      'getFilteredTasks',
+      'deleteTask',
+    ]);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       imports: [MatSnackBarModule, TaskCardComponent, MockTaskFilterComponent],
       providers: [
         { provide: TaskService, useValue: taskServiceMock },
-        { provide: Router, useValue: routerMock }
-      ]
+        { provide: Router, useValue: routerMock },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskCardComponent);
     component = fixture.componentInstance;
-    taskServiceMock.getTasks.and.returnValue(of(mockTasks));
+    taskServiceMock.getFilteredTasks.and.returnValue(of(mockTasks));
     fixture.detectChanges();
   });
 
@@ -158,17 +219,17 @@ describe('TaskCardComponent DOM', () => {
     expect(component.onTaskClick).toHaveBeenCalledWith(mockTasks[0]);
   });
 
-it('should call toggleCompletedStatus when the button is clicked', () => {
-  spyOn(component, 'toggleCompletedStatus');
-  taskServiceMock.getTasks.and.returnValue(of(mockTasks));
-  fixture.detectChanges();
+  it('should call toggleCompletedStatus when the button is clicked', () => {
+    spyOn(component, 'toggleCompletedStatus');
+    taskServiceMock.getFilteredTasks.and.returnValue(of(mockTasks));
+    fixture.detectChanges();
 
-  const cards = fixture.debugElement.queryAll(By.css('.task-card'));
-  const button = cards[0].query(By.css('button'));
-  button.nativeElement.click();
+    const cards = fixture.debugElement.queryAll(By.css('.task-card'));
+    const buttons = cards[0].queryAll(By.css('button'));
+    buttons[1].nativeElement.click();
 
-  expect(component.toggleCompletedStatus).toHaveBeenCalledWith(mockTasks[0]);
-});
+    expect(component.toggleCompletedStatus).toHaveBeenCalledWith(mockTasks[0]);
+  });
 
   it('should display the correct chip label for completed and incomplete tasks', () => {
     const chips = fixture.debugElement.queryAll(By.css('mat-chip'));

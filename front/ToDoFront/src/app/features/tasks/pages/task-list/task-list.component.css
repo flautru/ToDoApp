@@ -1,10 +1,10 @@
-.task-item{
+.task-item {
   display: flex;
   align-items: center;
   cursor: pointer;
   border: 1px solid var(--main-purple);
   border-radius: 30px;
-  margin : 5px;
+  margin: 5px;
 }
 
 .mat-mdc-list-item-icon {
@@ -21,4 +21,34 @@
 
 .task-item:hover {
   background-color: #f4e0fa;
+}
+
+.task-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.task-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.task-icon {
+  color: #6a1b9a;
+}
+
+mat-list-item.task-item {
+  background-color: #fff4e5;
+  border: 1px solid #6a1b9a;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+mat-list-item.task-item:hover {
+  background-color: #f3e5f5;
+  cursor: pointer;
 }

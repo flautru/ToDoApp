@@ -12,9 +12,7 @@ describe('HeaderComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [HeaderComponent],
-      providers: [
-        { provide: Router, useValue: routerMock }
-      ]
+      providers: [{ provide: Router, useValue: routerMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);

@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { TasksRoutingModule } from './tasks-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    TasksRoutingModule
-  ]
+  imports: [CommonModule, TasksRoutingModule],
 })
-export class TasksModule { }
+export class TasksModule {}

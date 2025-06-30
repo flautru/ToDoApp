@@ -1,7 +1,6 @@
-
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 export interface Task {
   id?: number;
@@ -15,13 +14,12 @@ export interface TaskCompletionRequestDto {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskService {
-
   private apiUrl = 'http://localhost:8080/api/tasks';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getTasks(completed?: boolean): Observable<Task[]> {
     let params = new HttpParams();
@@ -31,7 +29,24 @@ export class TaskService {
     return this.http.get<Task[]>(this.apiUrl, { params });
   }
 
-  getTaskById(id: number): Observable<Task>{
+  getFilteredTasks(statusFilter?: string): Observable<Task[]> {
+    let completed: boolean | undefined;
+
+    if (statusFilter === 'completed') {
+      completed = true;
+    } else if (statusFilter === 'incomplete') {
+      completed = false;
+    }
+
+    return this.getTasks(completed).pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la récupération des tâches', error);
+        return of([]);
+      }),
+    );
+  }
+
+  getTaskById(id: number): Observable<Task> {
     return this.http.get<Task>(`${this.apiUrl}/${id}`);
   }
 

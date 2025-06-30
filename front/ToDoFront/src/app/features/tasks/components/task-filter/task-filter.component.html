@@ -1,17 +1,15 @@
 <div class="filter-header">
-
-<mat-button-toggle-group
-      name="statusFilter"
-      [(ngModel)]="selected"
-      color="primary"
-      exclusive
-      (change)="onSelectionChange()">
-      <mat-button-toggle value="all">Toutes</mat-button-toggle>
-      <mat-button-toggle value="completed">Faites</mat-button-toggle>
-      <mat-button-toggle value="incomplete">En cours</mat-button-toggle>
-</mat-button-toggle-group>
- <span class="spacer"></span>
-  <button mat-raised-button color="accent" (click)="onAdd()">
-    Ajouter
-  </button>
+  <mat-button-toggle-group
+    name="statusFilter"
+    [(ngModel)]="selected"
+    color="primary"
+    exclusive
+    (change)="onSelectionChange()"
+  >
+    <mat-button-toggle value="all">Toutes</mat-button-toggle>
+    <mat-button-toggle value="completed">Faites</mat-button-toggle>
+    <mat-button-toggle value="incomplete">En cours</mat-button-toggle>
+  </mat-button-toggle-group>
+  <span class="spacer"></span>
+  <button class="custom-button" (click)="onAdd()">Ajouter</button>
 </div>
