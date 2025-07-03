@@ -14,7 +14,7 @@ export abstract class TaskFilterBaseComponent {
       next: (tasks) => {
         this.loading = false;
         this.tasks = tasks;
-        this.errorMessage = tasks.length ? '' : 'Aucune tâche trouvée.';
+        this.errorMessage = tasks?.length ? '' : 'Aucune tâche trouvée.';
       },
       error: (err) => {
         this.loading = false;
