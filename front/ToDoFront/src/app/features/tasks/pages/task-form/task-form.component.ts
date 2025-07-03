@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSpinner } from '@angular/material/progress-spinner';
+import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
 @Component({
   selector: 'app-task-form',
   imports: [
@@ -52,6 +53,7 @@ export class TaskFormComponent implements OnInit {
     private taskService: TaskService,
     private route: ActivatedRoute,
     private router: Router,
+    private errorHandler: ErrorHandlerService
   ) {
     this.taskForm = this.fb.group({
       label: [''],
@@ -61,14 +63,11 @@ export class TaskFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('TaskFormComponent initialized');
-
     this.route.queryParams.subscribe((params) => {
       this.originView = params['from'] || 'list';
     });
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
-      console.log('Task ID from route:', id);
       if (id) {
         this.isEditMode = true;
         this.taskId = +id;
@@ -78,6 +77,7 @@ export class TaskFormComponent implements OnInit {
       }
     });
   }
+
   onSubmit(): void {
     if (this.taskForm.invalid) return;
     this.loading = true;
@@ -86,31 +86,27 @@ export class TaskFormComponent implements OnInit {
     const taskData = this.taskForm.value;
 
     if (this.isEditMode && this.taskId) {
-      this.taskService.putTask(this.taskId, taskData).subscribe(
-        (task) => {
+      this.taskService.putTask(this.taskId, taskData).subscribe({
+        next: (task) => {
           this.loading = false;
           this.chooseViewReturn();
         },
-        (err) => {
+        error: (err) => {
           this.loading = false;
-          this.errorMessage =
-            'Une erreur est survenue lors de la mise à jour de la tâche.';
-          console.error('Error updating task:', err);
-        },
-      );
+          this.errorHandler.handle(err, 'Échec de la mise à jour de la tâche');
+        }
+      });
     } else {
-      this.taskService.postTask(taskData).subscribe(
-        (task) => {
+      this.taskService.postTask(taskData).subscribe({
+        next: (task) => {
           this.loading = false;
           this.chooseViewReturn();
         },
-        (err) => {
+        error: (err) => {
           this.loading = false;
-          this.errorMessage =
-            'Une erreur est survenue lors de la mise à jour de la tâche.';
-          console.error('Error updating task:', err);
+          this.errorHandler.handle(err, 'Échec de la création de la tâche');
         },
-      );
+    });
     }
   }
 

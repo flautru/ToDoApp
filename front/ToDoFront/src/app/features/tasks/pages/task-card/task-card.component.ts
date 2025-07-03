@@ -17,6 +17,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
 import { MatSpinner } from '@angular/material/progress-spinner';
+import { TaskFilterBaseComponent } from '../../components/task-filter-base/task-filter-base.component';
+import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
 
 @Component({
   selector: 'app-task-card',
@@ -39,17 +41,17 @@ import { MatSpinner } from '@angular/material/progress-spinner';
   styleUrl: './task-card.component.css',
   standalone: true,
 })
-export class TaskCardComponent implements OnInit {
-  tasks: Task[] = [];
-
+export class TaskCardComponent extends TaskFilterBaseComponent implements OnInit {
   statusFilter: 'all' | 'completed' | 'incomplete' = 'all';
-  loading = false;
-  errorMessage: string | null = null;
   constructor(
-    private taskService: TaskService,
+    taskService: TaskService,
     private snackBar: MatSnackBar,
     private router: Router,
-  ) {}
+    errorHandler: ErrorHandlerService
+  ) {
+    super(taskService, errorHandler);
+    this.onFilterChange(this.statusFilter);
+  }
 
   ngOnInit(): void {
     this.onFilterChange(this.statusFilter);
@@ -62,37 +64,12 @@ export class TaskCardComponent implements OnInit {
         task.completed = newStatus;
       },
       error: (err) => {
-        console.error('Erreur lors de la mise à jour :', err);
-        this.snackBar.open('Échec de la mise à jour du statut', 'Fermer', {
-          duration: 3000,
-        });
+        this.errorHandler.handle(err,'Échec de la mise à jour du statut')
       },
     });
   }
 
-  onFilterChange(filter?: 'all' | 'completed' | 'incomplete'): void {
-    this.loading = true;
-    this.taskService.getFilteredTasks(filter).subscribe(
-      (tasks) => {
-        this.loading = false;
-        this.tasks = tasks;
-        if (!tasks?.length) {
-          this.errorMessage =
-            'Aucune tâche trouvée ou une erreur est survenue. Veuillez réessayer plus tard.';
-        } else {
-          this.errorMessage = '';
-        }
-      },
-      () => {
-        this.loading = false;
-        this.errorMessage =
-          'Une erreur est survenue lors de la récupération des tâches.';
-      },
-    );
-  }
-
   onTaskClick(task: Task): void {
-    console.log('Task clicked:', task);
     this.router.navigate(['tasks', task.id, 'edit'], {
       queryParams: { from: 'card' },
     });
@@ -121,12 +98,7 @@ export class TaskCardComponent implements OnInit {
         });
       },
       error: (err) => {
-        console.error('Erreur lors de la suppression :', err);
-        this.snackBar.open('Échec de la suppression de la tâche', 'Fermer', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-        });
+        this.errorHandler.handle(err, 'Échec de la suppression de la tâche');
       },
     });
   }

@@ -42,7 +42,7 @@ export class TaskService {
       catchError((error) => {
         console.error('Erreur lors de la récupération des tâches', error);
         return of([]);
-      }),
+      })
     );
   }
 

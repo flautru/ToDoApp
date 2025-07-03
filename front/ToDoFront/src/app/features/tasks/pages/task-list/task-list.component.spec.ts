@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
 
 describe('TaskListComponent', () => {
   let component: TaskListComponent;
@@ -25,6 +26,8 @@ describe('TaskListComponent', () => {
       'deleteTask',
     ]);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
+
+    taskServiceMock.getFilteredTasks.and.returnValue(of([]));
 
     await TestBed.configureTestingModule({
       imports: [TaskListComponent],
@@ -73,19 +76,15 @@ describe('TaskListComponent', () => {
     taskServiceMock.getFilteredTasks.and.returnValue(of([]));
     component.onFilterChange('completed');
     expect(component.tasks).toEqual([]);
-    expect(component.errorMessage).toBe(
-      'Aucune tâche trouvée ou une erreur est survenue. Veuillez réessayer plus tard.',
-    );
+    expect(component.errorMessage).toBe('Aucune tâche trouvée.');
   });
 
   it('should set errorMessage when getFilteredTasks throws', () => {
     taskServiceMock.getFilteredTasks.and.returnValue(
-      throwError(() => new Error('Erreur API')),
+      throwError(() => new Error('Erreur API'))
     );
     component.onFilterChange('completed');
-    expect(component.errorMessage).toBe(
-      'Une erreur est survenue lors de la récupération des tâches.',
-    );
+    expect(component.errorMessage).toBe('');
     expect(component.loading).toBeFalse();
   });
 
@@ -94,7 +93,7 @@ describe('TaskListComponent', () => {
     component.onTaskClick(task);
     expect(routerMock.navigate).toHaveBeenCalledWith(
       ['tasks', task.id, 'edit'],
-      { queryParams: { from: 'list' } },
+      { queryParams: { from: 'list' } }
     );
   });
 
@@ -133,7 +132,7 @@ describe('TaskListComponent', () => {
     it('should call onTaskClick when a list item is clicked', () => {
       spyOn(component, 'onTaskClick');
       const items = fixture.debugElement.queryAll(
-        By.css('.task-item .task-container'),
+        By.css('.task-item .task-container')
       );
       items[0].nativeElement.click();
       expect(component.onTaskClick).toHaveBeenCalledWith(mockTasks[0]);
@@ -166,25 +165,23 @@ describe('TaskListComponent', () => {
       expect(snackBar.open).toHaveBeenCalledWith(
         'Tâche supprimée avec succès',
         'Fermer',
-        jasmine.objectContaining({ duration: 3000 }),
+        jasmine.objectContaining({ duration: 3000 })
       );
     });
 
     it('should show error snackbar on delete error', () => {
-      const snackBar = TestBed.inject(MatSnackBar);
-      spyOn(snackBar, 'open');
+      const errorHandler = TestBed.inject(ErrorHandlerService);
       spyOn(console, 'error');
+      spyOn(errorHandler, 'handle');
       taskServiceMock.deleteTask.and.returnValue({
         subscribe: (observer: any) => observer.error('Erreur API'),
       } as any);
       component.tasks = [...mockTasks];
       component.deleteTask(mockTasks[0].id!);
-      expect(snackBar.open).toHaveBeenCalledWith(
-        'Échec de la suppression de la tâche',
-        'Fermer',
-        jasmine.objectContaining({ duration: 3000 }),
+      expect(errorHandler.handle).toHaveBeenCalledWith(
+        'Erreur API',
+        'Échec de la suppression de la tâche'
       );
-      expect(console.error).toHaveBeenCalled();
     });
   });
 });

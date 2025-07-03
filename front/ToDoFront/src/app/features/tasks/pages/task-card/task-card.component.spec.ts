@@ -6,6 +6,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
 @Component({
   selector: 'app-task-filter',
   template: '',
@@ -37,6 +38,8 @@ describe('TaskCardComponent', () => {
       'deleteTask',
     ]);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
+
+    taskServiceMock.getFilteredTasks.and.returnValue(of([]));
 
     await TestBed.configureTestingModule({
       imports: [MatSnackBarModule, TaskCardComponent, MockTaskFilterComponent],
@@ -145,18 +148,17 @@ describe('TaskCardComponent', () => {
   });
 
   it('should show error snackbar on delete error', () => {
-    const snackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
-    (component as any).snackBar = snackBar;
-    taskServiceMock.deleteTask.and.returnValue({
-      subscribe: (observer: any) => observer.error('Erreur API'),
-    } as any);
-    component.tasks = [...mockTasks];
-    component.deleteTask(mockTasks[0].id!);
-    expect(snackBar.open).toHaveBeenCalledWith(
-      'Échec de la suppression de la tâche',
-      'Fermer',
-      jasmine.any(Object),
-    );
+  const errorHandler = TestBed.inject(ErrorHandlerService);
+  spyOn(errorHandler, 'handle');
+  taskServiceMock.deleteTask.and.returnValue({
+    subscribe: (observer: any) => observer.error('Erreur API'),
+  } as any);
+  component.tasks = [...mockTasks];
+  component.deleteTask(mockTasks[0].id!);
+  expect(errorHandler.handle).toHaveBeenCalledWith(
+    'Erreur API',
+    'Échec de la suppression de la tâche'
+  );
   });
 });
 describe('TaskCardComponent DOM', () => {
@@ -178,6 +180,8 @@ describe('TaskCardComponent DOM', () => {
       'deleteTask',
     ]);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
+
+    taskServiceMock.getFilteredTasks.and.returnValue(of(mockTasks));
 
     await TestBed.configureTestingModule({
       imports: [MatSnackBarModule, TaskCardComponent, MockTaskFilterComponent],

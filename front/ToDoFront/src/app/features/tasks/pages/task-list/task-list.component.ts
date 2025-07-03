@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TaskFilterBaseComponent } from '../../components/task-filter-base/task-filter-base.component';
+import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
 
 @Component({
   selector: 'app-task-list',
@@ -22,49 +24,25 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
 })
-export class TaskListComponent implements OnInit {
-  tasks: Task[] = [];
+export class TaskListComponent extends TaskFilterBaseComponent implements OnInit  {
 
   statusFilter: 'all' | 'completed' | 'incomplete' = 'all';
 
-  loading = false;
-  errorMessage: string | null = null;
-
   constructor(
-    private taskService: TaskService,
+    taskService: TaskService,
     private router: Router,
     private snackBar: MatSnackBar,
-  ) {}
+    errorHandler: ErrorHandlerService
+  ) {
+    super(taskService, errorHandler);
+    this.onFilterChange(this.statusFilter);
+  }
 
   ngOnInit(): void {
     this.onFilterChange();
   }
 
-  onFilterChange(filter?: 'all' | 'completed' | 'incomplete'): void {
-    this.loading = true;
-    this.taskService.getFilteredTasks(filter).subscribe(
-      (tasks) => {
-        this.loading = false;
-        this.tasks = tasks;
-        console.log(tasks == null);
-        console.log(!tasks.length);
-        if (tasks == null || !tasks.length) {
-          this.errorMessage =
-            'Aucune tâche trouvée ou une erreur est survenue. Veuillez réessayer plus tard.';
-        } else {
-          this.errorMessage = '';
-        }
-      },
-      () => {
-        this.loading = false;
-        this.errorMessage =
-          'Une erreur est survenue lors de la récupération des tâches.';
-      },
-    );
-  }
-
   onTaskClick(task: Task): void {
-    console.log('Task clicked:', task);
     this.router.navigate(['tasks', task.id, 'edit'], {
       queryParams: { from: 'list' },
     });
@@ -93,12 +71,7 @@ export class TaskListComponent implements OnInit {
         });
       },
       error: (err) => {
-        console.error('Erreur lors de la suppression :', err);
-        this.snackBar.open('Échec de la suppression de la tâche', 'Fermer', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-        });
+        this.errorHandler.handle(err, 'Échec de la suppression de la tâche');
       },
     });
   }
