@@ -1,6 +1,8 @@
 package com.fabien.ToDoApp.controller;
 
 import com.fabien.ToDoApp.dto.TaskCompletionRequestDto;
+import com.fabien.ToDoApp.dto.TaskDto;
+import com.fabien.ToDoApp.mapper.TaskMapper;
 import com.fabien.ToDoApp.model.Task;
 import com.fabien.ToDoApp.service.impl.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,6 +10,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +31,9 @@ public class TaskController {
     @Operation(
             summary = "Retourne les taches",
             description = "Retourne une liste de tâche. "
-                        + "Si completed=true, retourne uniquement les tâches complétées. "
-                        + "Si completed=false, retourne uniquement les tâches incompletées. "
-                        + "Si absent retourne toutes les tâches.",
+                    + "Si completed=true, retourne uniquement les tâches complétées. "
+                    + "Si completed=false, retourne uniquement les tâches incompletées. "
+                    + "Si absent retourne toutes les tâches.",
             parameters = {
                     @Parameter(
                             name = "completed",
@@ -45,50 +48,49 @@ public class TaskController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Liste des tâches retournée avec succès")
             })
-    public ResponseEntity<List<Task>> getAllTasksOrByCompletionStatus(@RequestParam(required = false) Boolean completed){
-        List<Task> tasks;
-        if(completed != null){
-            tasks = taskService.findTasksByCompletedStatus(completed);
+    public ResponseEntity<List<TaskDto>> getAllTasksOrByCompletionStatus(@RequestParam(required = false) Boolean completed) {
+        List<TaskDto> taskDtos;
+        if (completed != null) {
+            taskDtos = taskService.findTasksByCompletedStatus(completed).stream().map(TaskMapper::toDto).toList();
         } else {
-            tasks = taskService.findAllTasks();
+            taskDtos = taskService.findAllTasks().stream().map(TaskMapper::toDto).toList();
         }
 
-        if(tasks.isEmpty()){
+        if (taskDtos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskDtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable Long id){
-        Task task = taskService.findTaskById(id);
+    public ResponseEntity<TaskDto> getTaskById(@PathVariable Long id) {
+        TaskDto task = TaskMapper.toDto(taskService.findTaskById(id));
         return ResponseEntity.ok(task);
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTaskById(@RequestBody Task task){
-        Task createdTask = taskService.saveTask(task);
-        URI location = URI.create("/tasks/" + createdTask.getId());
-        return ResponseEntity.
-                created(location).
-                body(createdTask);
+    public ResponseEntity<TaskDto> createTaskById(@Valid @RequestBody TaskDto taskDto) {
+        Task created = taskService.saveTask(TaskMapper.toEntity(taskDto));
+        return ResponseEntity
+                .created(URI.create("/tasks/" + created.getId()))
+                .body(TaskMapper.toDto(created));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTaskById(@PathVariable Long id, @RequestBody Task task){
-        Task updatedTask = taskService.updateTaskById(id,task);
+    public ResponseEntity<Task> updateTaskById(@PathVariable Long id, @RequestBody Task task) {
+        Task updatedTask = taskService.updateTaskById(id, task);
         return ResponseEntity.ok(updatedTask);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTaskById(@PathVariable Long id){
+    public ResponseEntity<String> deleteTaskById(@PathVariable Long id) {
         taskService.deleteTaskById(id);
         return ResponseEntity.noContent().build();
     }
 
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Task> updateCompletionStatus(@PathVariable Long id, @RequestBody TaskCompletionRequestDto requestDto){
+    public ResponseEntity<Task> updateCompletionStatus(@PathVariable Long id, @RequestBody TaskCompletionRequestDto requestDto) {
         Task updatedTask = taskService.updateCompletedStatusTaskById(id, requestDto.isCompleted());
 
         return ResponseEntity.ok(updatedTask);
