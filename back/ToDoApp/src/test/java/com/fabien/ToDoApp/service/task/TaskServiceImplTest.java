@@ -1,4 +1,4 @@
-package com.fabien.ToDoApp.service.impl;
+package com.fabien.ToDoApp.service.task;
 
 import com.fabien.ToDoApp.exception.TaskNotFoundException;
 import com.fabien.ToDoApp.model.Task;
@@ -24,20 +24,20 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenValidTasks_whenFindAllTask_thenReturnAllTask(){
-        Task task1 = new Task(1L,"Task 1", "Desc 1", false);
-        Task task2 = new Task(2L,"Task 2", "Desc 2", true);
+    void givenValidTasks_whenFindAllTask_thenReturnAllTask() {
+        Task task1 = new Task(1L, "Task 1", "Desc 1", false);
+        Task task2 = new Task(2L, "Task 2", "Desc 2", true);
 
-        when(taskRepository.findAll()).thenReturn(List.of(task1,task2));
+        when(taskRepository.findAll()).thenReturn(List.of(task1, task2));
 
-        List<Task>tasks = taskService.findAllTasks();
+        List<Task> tasks = taskService.findAllTasks();
         assertEquals(2, tasks.size());
         verify(taskRepository).findAll();
     }
 
     @Test
-    void givenCompletedFalse_whenFindTaskByIncompleteTasks_thenReturnCompletedTasks(){
-        Task task1 = new Task(1L,"Task 1", "Desc 1", false);
+    void givenCompletedFalse_whenFindTaskByIncompleteTasks_thenReturnCompletedTasks() {
+        Task task1 = new Task(1L, "Task 1", "Desc 1", false);
 
         when(taskRepository.findByCompleted(false)).thenReturn(List.of(task1));
         List<Task> tasks = taskService.findTasksByCompletedStatus(false);
@@ -47,8 +47,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenCompletedTrue_whenFindTasksByCompletedTask_thenReturnIncompletedTasks(){
-        Task task = new Task(2L,"Task 2", "Desc 2", true);
+    void givenCompletedTrue_whenFindTasksByCompletedTask_thenReturnIncompletedTasks() {
+        Task task = new Task(2L, "Task 2", "Desc 2", true);
 
         when(taskRepository.findByCompleted(true)).thenReturn(List.of(task));
         List<Task> tasks = taskService.findTasksByCompletedStatus(true);
@@ -58,8 +58,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenExistingId_whenFindById_thenReturnTask(){
-        Task expectedTask = new Task(5L,"Task 2", "Desc 2", true);
+    void givenExistingId_whenFindById_thenReturnTask() {
+        Task expectedTask = new Task(5L, "Task 2", "Desc 2", true);
 
         when(taskRepository.findById(5L)).thenReturn(Optional.of(expectedTask));
         Task task = taskService.findTaskById(5L);
@@ -73,7 +73,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenNonExistingId_whenFindById_thenThrowTaskNotFoundException(){
+    void givenNonExistingId_whenFindById_thenThrowTaskNotFoundException() {
 
         when(taskRepository.findById(5L)).thenReturn(Optional.empty());
         TaskNotFoundException exception = assertThrows(TaskNotFoundException.class, () -> {
@@ -85,8 +85,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenValidTask_whenSaveTask_thenReturnSavedTask(){
-        Task expectedTask = new Task(2L,"Task 2", "Desc 2", true);
+    void givenValidTask_whenSaveTask_thenReturnSavedTask() {
+        Task expectedTask = new Task(2L, "Task 2", "Desc 2", true);
 
         when(taskRepository.save(any(Task.class))).thenReturn(expectedTask);
         Task task = taskService.saveTask(expectedTask);
@@ -100,7 +100,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenExistingId_whenUpdateCompletedStatusTaskById_thenStatusIsUpdated(){
+    void givenExistingId_whenUpdateCompletedStatusTaskById_thenStatusIsUpdated() {
         Long taskId = 1L;
         boolean newStatus = true;
         Task existingTask = new Task(taskId, "Label", "Description", false);
@@ -117,7 +117,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenNoExistingId_whenUpdateCompletedTaskById_thenThrowStatusTaskNotFoundException(){
+    void givenNoExistingId_whenUpdateCompletedTaskById_thenThrowStatusTaskNotFoundException() {
         Long taskId = 99L;
         boolean newStatus = true;
 
@@ -132,7 +132,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenExistingId_whenUpdateTaskById_thenReturnUpdatedTask(){
+    void givenExistingId_whenUpdateTaskById_thenReturnUpdatedTask() {
         Task existingTask = new Task(1L, "Label", "Description", false);
         Task updatedTask = new Task(1L, "Label 2", "Description 2", false);
 
@@ -150,9 +150,9 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void givenNoExistingId_whenUpdateTaskById_thenThrowStatusTaskNotFoundException(){
+    void givenNoExistingId_whenUpdateTaskById_thenThrowStatusTaskNotFoundException() {
         Long taskId = 99L;
-        Task updatedTask = new Task(taskId,"Label 2", "Description 2", false);
+        Task updatedTask = new Task(taskId, "Label 2", "Description 2", false);
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
         TaskNotFoundException exception = assertThrows(TaskNotFoundException.class, () -> {

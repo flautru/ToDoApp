@@ -4,7 +4,7 @@ import com.fabien.ToDoApp.dto.TaskDto;
 import com.fabien.ToDoApp.exception.TaskNotFoundException;
 import com.fabien.ToDoApp.mapper.TaskMapper;
 import com.fabien.ToDoApp.model.Task;
-import com.fabien.ToDoApp.service.impl.TaskService;
+import com.fabien.ToDoApp.service.task.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

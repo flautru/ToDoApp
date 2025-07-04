@@ -1,9 +1,8 @@
-package com.fabien.ToDoApp.service.impl;
+package com.fabien.ToDoApp.service.task;
 
 import com.fabien.ToDoApp.exception.TaskNotFoundException;
 import com.fabien.ToDoApp.model.Task;
 import com.fabien.ToDoApp.repository.TaskRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class TaskServiceImpl implements TaskService {
 
     public Task updateCompletedStatusTaskById(Long id, boolean status) {
         return taskRepository.findById(id).
-                map( task -> {
+                map(task -> {
                     task.setCompleted(status);
                     return taskRepository.save(task);
                 })
@@ -42,7 +41,7 @@ public class TaskServiceImpl implements TaskService {
 
     public Task updateTaskById(Long id, Task task) {
         return taskRepository.findById(id).
-                map( existingTask -> {
+                map(existingTask -> {
                     existingTask.setLabel(task.getLabel());
                     existingTask.setDescription(task.getDescription());
                     existingTask.setCompleted(task.isCompleted());
@@ -52,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public void deleteTaskById(Long id) {
-        Task task  = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
         taskRepository.delete(task);
     }
 }
