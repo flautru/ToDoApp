@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { TaskFilterBaseComponent } from '../../components/task-filter-base/task-filter-base.component';
-import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
+import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 
 @Component({
   selector: 'app-task-card',

@@ -2,16 +2,14 @@ package com.fabien.ToDoApp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
     private Long id;
     private String username;
     private String role;
 
-    public UserDto(long l, String userTest, String testeur) {
-    }
 }

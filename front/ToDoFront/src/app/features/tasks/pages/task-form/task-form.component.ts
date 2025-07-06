@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSpinner } from '@angular/material/progress-spinner';
-import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
+import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 @Component({
   selector: 'app-task-form',
   imports: [

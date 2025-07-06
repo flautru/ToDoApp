@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class UserMapperTest {
 
@@ -31,5 +32,30 @@ class UserMapperTest {
         assertEquals(userDto.getId(), user.getId());
         assertEquals(userDto.getUsername(), user.getUsername());
         assertEquals(userDto.getRole(), user.getRole());
+        assertNull(user.getPassword());
+    }
+
+    @Test
+    void testToDtoWithNullValues() {
+        User user = new User();
+
+        UserDto userDto = userMapper.toDto(user);
+
+        assertNull(userDto.getId());
+        assertNull(userDto.getUsername());
+        assertNull(userDto.getRole());
+    }
+
+    @Test
+    void testToEntityWithNullValues() {
+        UserDto userDto = new UserDto();
+
+        User user = userMapper.toEntity(userDto);
+
+        assertNull(user.getId());
+        assertNull(user.getUsername());
+        assertNull(user.getRole());
+        assertNull(user.getPassword());
+
     }
 }

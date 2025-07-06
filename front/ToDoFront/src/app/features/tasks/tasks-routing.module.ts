@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TaskCardComponent } from './pages/task-card/task-card.component';
 import { TaskListComponent } from './pages/task-list/task-list.component';
 
-const routes: Routes = [
+const loginRoutes: Routes = [
   { path: 'card', component: TaskCardComponent },
   { path: '', component: TaskListComponent },
   { path: 'new', component: TaskFormComponent },
@@ -12,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(loginRoutes)],
   exports: [RouterModule],
 })
 export class TasksRoutingModule {}

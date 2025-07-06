@@ -6,7 +6,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
+import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 @Component({
   selector: 'app-task-filter',
   template: '',

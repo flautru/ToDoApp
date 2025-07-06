@@ -19,7 +19,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
 @Tag(name = "Tâche", description = "Endpoints lié aux tâches")

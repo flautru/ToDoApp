@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
+import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 
 describe('TaskListComponent', () => {
   let component: TaskListComponent;

@@ -1,4 +1,4 @@
-import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
+import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 import { Task, TaskService } from '../../services/task.service';
 
 export abstract class TaskFilterBaseComponent {

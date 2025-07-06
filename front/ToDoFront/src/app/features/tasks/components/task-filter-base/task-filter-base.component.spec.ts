@@ -1,6 +1,6 @@
 import { of, throwError } from 'rxjs';
 import { Task, TaskService } from '../../services/task.service';
-import { ErrorHandlerService } from '../../../../core/services/error-handler.service';
+import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 import { TaskFilterBaseComponent } from './task-filter-base.component';
 
 class TestComponent extends TaskFilterBaseComponent {
