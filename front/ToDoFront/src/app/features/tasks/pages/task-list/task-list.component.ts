@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Task, TaskService } from '../../services/task.service';
+import { TaskService } from '../../services/task.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { MatSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskFilterBaseComponent } from '../../components/task-filter-base/task-filter-base.component';
 import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
+import { Task } from '../../model/task.model';
 
 @Component({
   selector: 'app-task-list',

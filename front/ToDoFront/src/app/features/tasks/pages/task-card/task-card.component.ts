@@ -1,10 +1,11 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Task, TaskService } from '../../services/task.service';
+import { TaskService } from '../../services/task.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { Task } from '../../model/task.model';
 import {
   MatCardActions,
   MatCardTitle,

@@ -1,6 +1,6 @@
 import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
-import { Task, TaskService } from '../../services/task.service';
-
+import { TaskService } from '../../services/task.service';
+import { Task } from '../../model/task.model';
 export abstract class TaskFilterBaseComponent {
   tasks: Task[] = [];
   loading = false;
