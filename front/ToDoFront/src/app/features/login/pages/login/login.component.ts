@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
-
+import { Validators } from '@angular/forms';
 @Component({
   selector: 'app-login',
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule, MatButton, RouterModule],
@@ -20,8 +20,8 @@ export class LoginComponent {
 
   constructor(private loginService: LoginService, private fb: FormBuilder, private errorHandler: ErrorHandlerService, private route: Router) {
     this.loginForm = this.fb.group({
-      username: [''],
-      password: ['']
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 

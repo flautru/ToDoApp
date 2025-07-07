@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
+import { Validators } from '@angular/forms';
 @Component({
   selector: 'app-task-form',
   imports: [
@@ -56,8 +57,8 @@ export class TaskFormComponent implements OnInit {
     private errorHandler: ErrorHandlerService
   ) {
     this.taskForm = this.fb.group({
-      label: [''],
-      description: [''],
+      label: ['', [Validators.required, Validators.maxLength(100)]],
+      description: ['', [Validators.required, Validators.maxLength(500)]],
       completed: [false],
     });
   }

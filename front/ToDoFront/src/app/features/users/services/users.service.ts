@@ -30,7 +30,7 @@ export class UsersService {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
 
-  deleteUserById(id: number): any {
+  deleteUserById(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

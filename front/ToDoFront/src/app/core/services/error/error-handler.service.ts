@@ -20,7 +20,7 @@ export class ErrorHandlerService {
       } else if (error.status >= 500) {
         errorMessage = 'Une erreur interne du serveur est survenue.';
       } else if (error.status === 404) {
-        message = 'Ressource non trouvée.';
+        errorMessage = 'Ressource non trouvée.';
       } else if (error.status >= 400) {
         errorMessage = 'Une erreur de requête a été détectée.';
       }
