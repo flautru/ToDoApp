@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoginRequest } from '../model/login-request.model';
 
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
 
 export interface LoginResponse {
   token: string;
