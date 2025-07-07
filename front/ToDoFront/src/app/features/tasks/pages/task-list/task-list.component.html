@@ -1,6 +1,7 @@
 <app-task-filter
   [selected]="statusFilter"
   (filterChanged)="onFilterChange($event)"
+  (validateClicked)="onValidateSearch($event)"
   (addClicked)="onAddTask()"
 >
 </app-task-filter>

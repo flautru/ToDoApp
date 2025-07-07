@@ -6,3 +6,13 @@
   flex-wrap: wrap; /* Pour éviter les débordements en responsive */
   gap: 16px;
 }
+
+.form-field {
+  width: 300px;
+  margin: 0;
+}
+
+.search-container{
+    display: flex;
+  align-items: center;
+}

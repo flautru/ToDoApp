@@ -9,10 +9,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-form',
-  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSpinner, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSpinner, ReactiveFormsModule, CommonModule, MatButtonModule],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
 })

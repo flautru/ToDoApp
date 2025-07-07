@@ -10,6 +10,18 @@
     <mat-button-toggle value="completed">Faites</mat-button-toggle>
     <mat-button-toggle value="incomplete">En cours</mat-button-toggle>
   </mat-button-toggle-group>
+
+  <div class="search-container">
+<mat-form-field class="form-field">
+  <mat-label>Recherche par titre</mat-label>
+  <input matInput type="text" [(ngModel)]="searchTerm"   (keyup.enter)="onValidateSearch()"
+  placeholder="Rechercher par titre...">
+    <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Effacer" (click)="resetSearch()">
+      <mat-icon>close</mat-icon>
+    </button>
+</mat-form-field>
+  <!-- <button class="custom-button" (click)="onValidateSearch()">Rechercher</button> -->
+  </div>
   <span class="spacer"></span>
   <button class="custom-button" (click)="onAdd()">Ajouter</button>
 </div>

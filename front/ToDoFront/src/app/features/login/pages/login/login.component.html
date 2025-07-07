@@ -13,6 +13,9 @@
             <input type="password" matInput placeholder="Mot de passe" formControlName="password">
           </mat-form-field>
         </p>
+        <div *ngIf="loginError" class="error-message">
+          {{ loginError }}
+        </div>
         <div class="button">
           <button type="submit" mat-button>Connexion</button>
         </div>

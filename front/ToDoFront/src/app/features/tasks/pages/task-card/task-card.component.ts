@@ -44,6 +44,7 @@ import { ErrorHandlerService } from '../../../../core/services/error/error-handl
 })
 export class TaskCardComponent extends TaskFilterBaseComponent implements OnInit {
   statusFilter: 'all' | 'completed' | 'incomplete' = 'all';
+
   constructor(
     taskService: TaskService,
     private snackBar: MatSnackBar,
@@ -103,4 +104,10 @@ export class TaskCardComponent extends TaskFilterBaseComponent implements OnInit
       },
     });
   }
+
+  onValidateSearch(term: string): void {
+    this.searchTerm = term;
+    this.filterTasks();
+  }
+
 }

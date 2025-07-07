@@ -1,6 +1,7 @@
 <app-task-filter
   [selected]="statusFilter"
   (filterChanged)="onFilterChange($event)"
+  (validateClicked)="onValidateSearch($event)"
   (addClicked)="onAddTask()"
 >
 </app-task-filter>
@@ -16,7 +17,7 @@
 <div *ngIf="!loading && !errorMessage" class="task-list">
   <mat-card
     class="task-card"
-    *ngFor="let task of tasks"
+    *ngFor="let task of filteredTasks"
     [ngClass]="{ completed: task.completed, incomplete: !task.completed }"
     (click)="onTaskClick(task)"
   >

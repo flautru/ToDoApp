@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskFilterBaseComponent } from '../../components/task-filter-base/task-filter-base.component';
 import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 import { Task } from '../../model/task.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-task-list',
@@ -20,6 +21,7 @@ import { Task } from '../../model/task.model';
     FormsModule,
     CommonModule,
     TaskFilterComponent,
+    MatButtonModule,
     MatSpinner,
   ],
   templateUrl: './task-list.component.html',
@@ -75,5 +77,10 @@ export class TaskListComponent extends TaskFilterBaseComponent implements OnInit
         this.errorHandler.handle(err, 'Échec de la suppression de la tâche');
       },
     });
+  }
+
+  onValidateSearch(term: string): void {
+    this.searchTerm = term;
+    this.filterTasks();
   }
 }

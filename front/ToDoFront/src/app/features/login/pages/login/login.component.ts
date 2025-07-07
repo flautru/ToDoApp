@@ -17,7 +17,7 @@ import { Validators } from '@angular/forms';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-
+  loginError: string | null = null;
   constructor(private loginService: LoginService, private fb: FormBuilder, private errorHandler: ErrorHandlerService, private route: Router) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -40,6 +40,7 @@ export class LoginComponent {
       },
       error: (error) => {
         this.errorHandler.handle('Echec de la connexion', error);
+        this.loginError = "Username ou mot de passe incorrect";
       }
     });
   }

@@ -20,7 +20,7 @@ export class HeaderComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   goListView(): void {
-    this.router.navigate(['/tasks/list']);
+    this.router.navigate(['/tasks']);
   }
 
   goCardView(): void {
@@ -32,6 +32,6 @@ export class HeaderComponent {
   }
   logout(): void {
     this.authService.logout();
-    //this.router.navigate(['/login']);
+    this.router.navigate(['/login']);
   }
 }

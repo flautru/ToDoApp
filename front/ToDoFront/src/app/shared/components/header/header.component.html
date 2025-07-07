@@ -1,15 +1,13 @@
 <mat-toolbar class="custom-toolbar">
   <h1>To do Application</h1>
   <span class="spacer"></span>
-  <button class="custom-button" [matMenuTriggerFor]="taskMenu">Taches</button>
+  <button *ngIf="isLoggedIn()" class="custom-button" [matMenuTriggerFor]="taskMenu">Taches</button>
   <mat-menu #taskMenu="matMenu">
     <button mat-menu-item (click)="goListView()">Listes</button>
     <button mat-menu-item (click)="goCardView()">Cartes</button>
   </mat-menu>
-  <span *ngIf="isLoggedIn()">
-  <button class="custom-button" [matMenuTriggerFor]="userMenu">Utilisateur</button>
+  <button *ngIf="isLoggedIn()" class="custom-button" [matMenuTriggerFor]="userMenu">Utilisateur</button>
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item (click)="logout()">Se déconnecter</button>
   </mat-menu>
-  </span>
 </mat-toolbar>

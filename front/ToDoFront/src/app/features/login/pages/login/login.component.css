@@ -34,3 +34,10 @@ mat-card-content {
 mat-card {
   width: 350px;
 }
+.error-message {
+  color: white;
+  background-color: red;
+  margin-bottom: 12px;
+  font-weight: 400;
+  
+}
