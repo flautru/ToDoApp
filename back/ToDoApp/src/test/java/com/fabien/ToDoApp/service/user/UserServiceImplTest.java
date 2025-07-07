@@ -1,13 +1,14 @@
 package com.fabien.ToDoApp.service.user;
 
 import com.fabien.ToDoApp.exception.UserNameAlreadyExistException;
+import com.fabien.ToDoApp.exception.UserNotFoundException;
+import com.fabien.ToDoApp.mapper.UserMapper;
 import com.fabien.ToDoApp.model.User;
 import com.fabien.ToDoApp.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -19,7 +20,8 @@ class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
-    private UserServiceImpl userService;
+    private UserService userService;
+    private UserMapper userMapper;
     @Mock
     private PasswordEncoder passwordEncoder;
 
@@ -48,11 +50,11 @@ class UserServiceImplTest {
     void givenInvalidId_whenFindUserById_thenReturnUserNotFound() {
 
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
-        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> {
             userService.findUserById(1L);
         });
 
-        assertEquals("User not found with id : " + 1L, exception.getMessage());
+        assertEquals("User not found with id: " + 1L, exception.getMessage());
         verify(userRepository).findById(1L);
     }
 
@@ -89,12 +91,26 @@ class UserServiceImplTest {
     }
 
     @Test
-    void givenUserId_whenDeleteUser_thenRepositoryCalled() {
+    void givenUserId_whenDeleteByIdUser_thenRepositoryCalled() {
         Long userId = 1L;
+        User user = new User(userId, "testUsername", "password", "role");
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-        userService.delete(userId);
+        userService.deleteById(userId);
 
         verify(userRepository).deleteById(userId);
     }
 
+    @Test
+    void givenInvalidUserId_whenDeleteByIdUser_thenReturnError() {
+        Long invalidId = 99L;
+
+        when(userRepository.findById(invalidId)).thenReturn(Optional.empty());
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> {
+            userService.deleteById(invalidId);
+        });
+
+        assertEquals("User not found with id: " + invalidId, exception.getMessage());
+        verify(userRepository, never()).deleteById(any());
+    }
 }

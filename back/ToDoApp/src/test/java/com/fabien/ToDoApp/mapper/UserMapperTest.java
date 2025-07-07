@@ -58,4 +58,19 @@ class UserMapperTest {
         assertNull(user.getPassword());
 
     }
+
+    @Test
+    void testToDtoWithNull() {
+        UserDto userDto = userMapper.toDto(null);
+
+        assertNull(userDto);
+    }
+
+    @Test
+    void testToEntityWithNull() {
+        User user = userMapper.toEntity(null);
+
+        assertNull(user);
+
+    }
 }

@@ -1,10 +1,10 @@
 package com.fabien.ToDoApp.service.user;
 
 import com.fabien.ToDoApp.exception.UserNameAlreadyExistException;
+import com.fabien.ToDoApp.exception.UserNotFoundException;
 import com.fabien.ToDoApp.model.User;
 import com.fabien.ToDoApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
 
     public User findUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + id));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id.toString()));
     }
 
     public User save(User user) {
@@ -32,7 +32,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public void delete(Long id) {
+    public void deleteById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id.toString()));
         userRepository.deleteById(id);
     }
 }

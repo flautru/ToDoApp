@@ -6,6 +6,7 @@ import com.fabien.ToDoApp.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,13 +25,18 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String jwt = jwtUtils.generateJwtToken(userDetails);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String jwt = jwtUtils.generateJwtToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(jwt));
+            return ResponseEntity.ok(new JwtResponse(jwt));
+        } catch (Exception ex) {
+            throw new BadCredentialsException("Bad credentials");
+        }
+
     }
 
 }

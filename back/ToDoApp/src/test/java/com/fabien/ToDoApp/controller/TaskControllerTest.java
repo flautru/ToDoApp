@@ -4,11 +4,14 @@ import com.fabien.ToDoApp.dto.TaskDto;
 import com.fabien.ToDoApp.exception.TaskNotFoundException;
 import com.fabien.ToDoApp.mapper.TaskMapper;
 import com.fabien.ToDoApp.model.Task;
+import com.fabien.ToDoApp.security.jwt.JwtAuthenticationFilter;
+import com.fabien.ToDoApp.security.jwt.JwtUtils;
 import com.fabien.ToDoApp.service.task.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -24,16 +27,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(TaskController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class TaskControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private TaskService taskService;
-
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private JwtUtils jwtUtils;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @MockBean
+    private TaskService taskService;
 
     @Test
     @DisplayName("GET /api/tasks - should return all tasks when no param")
@@ -84,6 +94,18 @@ class TaskControllerTest {
                 .andExpect(jsonPath("$[0].completed").value(false));
 
         verify(taskService).findTasksByCompletedStatus(false);
+    }
+
+    @Test
+    @DisplayName("GET /api/tasks - should return no content")
+    void shouldReturnNoContent_whenNoTasks() throws Exception {
+
+        when(taskService.findAllTasks()).thenReturn(List.of());
+
+        mockMvc.perform(get("/api/tasks"))
+                .andExpect(status().isNoContent());
+
+        verify(taskService).findAllTasks();
     }
 
     @Test
@@ -159,7 +181,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("DElETE /api/tasks/{id} - should delete task by id")
+    @DisplayName("DELETE /api/tasks/{id} - should delete task by id")
     void shouldDeleteTaskAndReturnNoContent_whenValidIdProvided() throws Exception {
         mockMvc.perform(delete("/api/tasks/1"))
                 .andExpect(status().isNoContent());
@@ -168,7 +190,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("DElETE /api/tasks/{id} - should delete task by id")
+    @DisplayName("DELETE /api/tasks/{id} - should delete task by id")
     void shouldReturnError_whenDeleteNonExistingTaskById() throws Exception {
         Long taskId = 99L;
         doThrow(new TaskNotFoundException("Task not found with id : " + taskId)).when(taskService).deleteTaskById(taskId);

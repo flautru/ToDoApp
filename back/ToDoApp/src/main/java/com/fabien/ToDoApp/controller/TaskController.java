@@ -76,8 +76,8 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTaskById(@PathVariable Long id, @RequestBody Task task) {
-        Task updatedTask = taskService.updateTaskById(id, task);
+    public ResponseEntity<Task> updateTaskById(@PathVariable Long id, @Valid @RequestBody TaskDto taskDto) {
+        Task updatedTask = taskService.updateTaskById(id, TaskMapper.toEntity(taskDto));
         return ResponseEntity.ok(updatedTask);
     }
 
@@ -89,7 +89,7 @@ public class TaskController {
 
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Task> updateCompletionStatus(@PathVariable Long id, @RequestBody TaskCompletionRequestDto requestDto) {
+    public ResponseEntity<Task> updateCompletionStatus(@PathVariable Long id, @Valid @RequestBody TaskCompletionRequestDto requestDto) {
         Task updatedTask = taskService.updateCompletedStatusTaskById(id, requestDto.isCompleted());
 
         return ResponseEntity.ok(updatedTask);

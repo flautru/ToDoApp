@@ -163,4 +163,28 @@ class TaskServiceImplTest {
         verify(taskRepository).findById(taskId);
         verify(taskRepository, never()).save(any());
     }
+
+    @Test
+    void givenUserId_whenDeleteByIdUser_thenRepositoryCalled() {
+        Long taskId = 1L;
+        Task task = new Task(taskId, "Label 2", "Description 2", false);
+        when(taskRepository.findById(taskId)).thenReturn(Optional.of(task));
+
+        taskRepository.deleteById(taskId);
+
+        verify(taskRepository).deleteById(taskId);
+    }
+
+    @Test
+    void givenInvalidUserId_whenDeleteByIdUser_thenReturnError() {
+        Long invalidId = 99L;
+
+        when(taskRepository.findById(invalidId)).thenReturn(Optional.empty());
+        TaskNotFoundException exception = assertThrows(TaskNotFoundException.class, () -> {
+            taskService.deleteTaskById(invalidId);
+        });
+
+        assertEquals("Task not found with id : " + invalidId, exception.getMessage());
+        verify(taskRepository, never()).deleteById(any());
+    }
 }
