@@ -1,0 +1,46 @@
+<app-task-filter
+  [selected]="statusFilter"
+  (filterChanged)="onFilterChange($event)"
+  (validateClicked)="onValidateSearch($event)"
+  (addClicked)="onAddTask()"
+>
+</app-task-filter>
+
+<div *ngIf="loading" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="errorMessage && !loading" class="error">
+  {{ errorMessage }}
+</div>
+
+<mat-list *ngIf="!loading && !errorMessage">
+  <div mat-subheader>Tâche</div>
+  @for (task of filteredTasks; track task.id) {
+    <mat-list-item
+      class="task-item"
+      [ngClass]="{ completed: task.completed, incomplete: !task.completed }"
+    >
+      <div class="task-container" (click)="onTaskClick(task)">
+        <div class="task-info">
+          <mat-icon class="task-icon">note</mat-icon>
+          <div>
+            <div class="task-label">{{ task.label }}</div>
+            <div class="task-status">
+              {{ task.completed ? "Fait" : "En cours" }}
+            </div>
+          </div>
+        </div>
+
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="confirmDelete(task); $event.stopPropagation()"
+          aria-label="Supprimer la tâche"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-list-item>
+  }
+</mat-list>

@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --main-purple: #581d74;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin: 10px;
+}
+
+button.custom-button {
+  background-color: #6a1b9a; /* violet profond */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+button.custom-button:hover {
+  background-color: #7b1fa2;
+  transform: scale(1.03);
+}
+
+button.custom-button:active {
+  background-color: #4a148c;
+  transform: scale(0.97);
+}
+
+button:disabled {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed;
+  box-shadow: none;
+}

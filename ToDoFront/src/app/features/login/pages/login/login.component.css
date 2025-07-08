@@ -1,0 +1,48 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mat-form-field {
+  width: 100%;
+  min-width: 300px;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.create-user-btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+mat-card {
+  width: 350px;
+}
+.error-message {
+  color: white;
+  background-color: red;
+  margin-bottom: 12px;
+  font-weight: 400;
+
+}
+::ng-deep mat-error {
+  font-size: 13px;
+  color: #d32f2f; /* Material red tone */
+  padding-top: 4px;
+}
