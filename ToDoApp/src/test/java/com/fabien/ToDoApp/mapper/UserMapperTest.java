@@ -13,7 +13,7 @@ class UserMapperTest {
     private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @Test
-    void testToDto() {
+    void givenValidUser_whenMapToDto_thenReturnUserDto() {
         User user = new User(1L, "nameTest", "1234", "roleTest");
 
         UserDto userDto = userMapper.toDto(user);
@@ -24,7 +24,7 @@ class UserMapperTest {
     }
 
     @Test
-    void testToEntity() {
+    void givenValidUserDto_whenMapToDto_thenReturnUser() {
         UserDto userDto = new UserDto(1L, "nameTest", "roleTest");
 
         User user = userMapper.toEntity(userDto);
@@ -36,7 +36,7 @@ class UserMapperTest {
     }
 
     @Test
-    void testToDtoWithNullValues() {
+    void givenValidUserWithNullValue_whenMapToDto_thenReturnUserDtoWithNullValue() {
         User user = new User();
 
         UserDto userDto = userMapper.toDto(user);
@@ -47,7 +47,7 @@ class UserMapperTest {
     }
 
     @Test
-    void testToEntityWithNullValues() {
+    void givenValidUserDtoWithNullValue_whenMapToDto_thenReturnUserWithNullValue() {
         UserDto userDto = new UserDto();
 
         User user = userMapper.toEntity(userDto);
@@ -60,14 +60,14 @@ class UserMapperTest {
     }
 
     @Test
-    void testToDtoWithNull() {
+    void givenNullUser_whenMapToDto_thenReturnNull() {
         UserDto userDto = userMapper.toDto(null);
 
         assertNull(userDto);
     }
 
     @Test
-    void testToEntityWithNull() {
+    void givenNullUserDto_whenMapToEntity_thenReturnNull() {
         User user = userMapper.toEntity(null);
 
         assertNull(user);

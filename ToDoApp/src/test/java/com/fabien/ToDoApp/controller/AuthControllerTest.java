@@ -47,7 +47,7 @@ class AuthControllerTest {
 
     @Test
     @DisplayName("POST /api/auth/login should return JWT on valid credential")
-    void shouldReturnObjectWithToken() throws Exception {
+    void givenExistingLoginRequest_whenLogin_thenReturnObjectToken() throws Exception {
         LoginRequest loginRequest = new LoginRequest("testUsername", "password");
 
         Authentication authentication = Mockito.mock(Authentication.class);
@@ -67,7 +67,7 @@ class AuthControllerTest {
 
     @Test
     @DisplayName("POST /api/auth/login should return 401 on invalid credentials")
-    void shouldReturn401_whenCredentialsAreInvalid() throws Exception {
+    void givenNonExistingLoginRequest_whenLogin_thenReturn401() throws Exception {
         LoginRequest loginRequest = new LoginRequest("invalidUser", "wrongPassword");
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))

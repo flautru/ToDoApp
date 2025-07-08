@@ -46,8 +46,8 @@ class TaskControllerTest {
     private TaskService taskService;
 
     @Test
-    @DisplayName("GET /api/tasks - should return all tasks when no param")
-    void shouldReturnAllTasks_whenNoFilterProvided() throws Exception {
+    @DisplayName("GET /api/tasks - should return all tasks when no filter")
+    void givenNoFilter_whenGetAllTasks_thenReturnAllTasks() throws Exception {
         TaskDto taskDto1 = new TaskDto(1L, "Task 1", "Desc 1", false);
         TaskDto taskDto2 = new TaskDto(2L, "Task 2", "Desc 2", true);
 
@@ -65,8 +65,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/tasks?completed=true - should return only completed tasks")
-    void shouldReturnCompleteTasks_whenCompletedStatusIsTrue() throws Exception {
+    @DisplayName("GET /api/tasks?completed=true - should return only completed tasks when completed true")
+    void givenCompletedStatusTrue_whenGetAllTasks_thenReturnCompletedTasks() throws Exception {
         TaskDto completedTaskDto = new TaskDto(1L, "Completed Task", "Done", true);
 
         when(taskService.findTasksByCompletedStatus(true)).thenReturn(List.of(TaskMapper.toEntity(completedTaskDto)));
@@ -81,8 +81,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/tasks?completed=false - should return only incomplete tasks")
-    void shouldReturnIncompleteTasks_whenCompletedStatusIsFalse() throws Exception {
+    @DisplayName("GET /api/tasks?completed=false - should return only incomplete tasks when completed false")
+    void givenCompletedStatusFalse_whenGetAllTasks_thenReturnIncompletedTasks() throws Exception {
         TaskDto incompleteTaskDto = new TaskDto(2L, "Incomplete Task", "To do", false);
 
         when(taskService.findTasksByCompletedStatus(false)).thenReturn(List.of(TaskMapper.toEntity(incompleteTaskDto)));
@@ -97,8 +97,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/tasks - should return no content")
-    void shouldReturnNoContent_whenNoTasks() throws Exception {
+    @DisplayName("GET /api/tasks - should return no content when no tasks")
+    void givenNoTasks_whenGetAllTasks_thenReturnNoContent() throws Exception {
 
         when(taskService.findAllTasks()).thenReturn(List.of());
 
@@ -109,8 +109,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/tasks/{id} - should return tasks by id")
-    void shouldReturnTask_whenValidIdProvided() throws Exception {
+    @DisplayName("GET /api/tasks/{id} - should return tasks by id when id exist")
+    void givenTasksIdValid_whenGetTaskById_thenReturnTask() throws Exception {
         TaskDto taskDto = new TaskDto(1L, "Task 1", "Desc 1", false);
 
         when(taskService.findTaskById(1L)).thenReturn(TaskMapper.toEntity(taskDto));
@@ -126,8 +126,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("Post /api/tasks - should create a task")
-    void shouldCreateAndReturnTask_whenValidTaskProvided() throws Exception {
+    @DisplayName("Post /api/tasks - should create a task when task valid")
+    void givenTask_whenSaveTask_thenReturnTaskDto() throws Exception {
         TaskDto taskDto = new TaskDto(1L, "Task 1", "Desc 1", false);
 
         when(taskService.saveTask(any(Task.class))).thenReturn(TaskMapper.toEntity(taskDto));
@@ -145,8 +145,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("Put /api/tasks/{id} - should update a task")
-    void shouldUpdateAndReturnTask_whenValidIdProvided() throws Exception {
+    @DisplayName("Put /api/tasks/{id} - should update a task when task id exist")
+    void givenExistingTaskId_whenUpdateTaskById_thenReturnTaskDto() throws Exception {
         TaskDto taskDto = new TaskDto(1L, "Task 1", "Desc 1", false);
 
         when(taskService.updateTaskById(eq(1L), any(Task.class))).thenReturn(TaskMapper.toEntity(taskDto));
@@ -164,8 +164,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("Put /api/tasks/{id} - should return error when no found id")
-    void shouldReturnError_whenUpdatingNonExistingId() throws Exception {
+    @DisplayName("Put /api/tasks/{id} - should return task not found when no found id")
+    void givenNonExistingTaskId_whenUpdateTaskById_thenReturnTaskNotFound() throws Exception {
         Long taskId = 99L;
         TaskDto taskDto = new TaskDto(1L, "Task 1", "Desc 1", false);
 
@@ -181,8 +181,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("DELETE /api/tasks/{id} - should delete task by id")
-    void shouldDeleteTaskAndReturnNoContent_whenValidIdProvided() throws Exception {
+    @DisplayName("DELETE /api/tasks/{id} - should delete task by id when task id exist")
+    void givenExistingTaskId_whenDeleteTaskById_thenReturnNoContent() throws Exception {
         mockMvc.perform(delete("/api/tasks/1"))
                 .andExpect(status().isNoContent());
 
@@ -190,8 +190,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("DELETE /api/tasks/{id} - should delete task by id")
-    void shouldReturnError_whenDeleteNonExistingTaskById() throws Exception {
+    @DisplayName("DELETE /api/tasks/{id} - should throw task not found when no found id")
+    void givenNonExistingTaskId_whenDeleteTaskById_thenReturnTaskNotFound() throws Exception {
         Long taskId = 99L;
         doThrow(new TaskNotFoundException("Task not found with id : " + taskId)).when(taskService).deleteTaskById(taskId);
         mockMvc.perform(delete("/api/tasks/99"))
@@ -201,8 +201,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("PATCH /api/tasks/{id}/status - should update completed status task by id")
-    void shouldTaskCompletedStatusUpdated_whenValidIdAndStatusProvided() throws Exception {
+    @DisplayName("PATCH /api/tasks/{id}/status - should update completed status task by id when existing task id")
+    void givenTaskCompletionRequestDtoValid_whenUpdateCompletedStatusTaskById_thenReturnTaskDto() throws Exception {
         Long taskId = 1L;
         boolean newStatus = false;
         TaskDto taskDto = new TaskDto(taskId, "Task 1", "Desc 1", false);
@@ -220,8 +220,8 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("PATCH /api/tasks/{id}/status - should update completed status task by id")
-    void shouldReturnBadRequest_whenValidIdAndInvalidStatusProvided() throws Exception {
+    @DisplayName("PATCH /api/tasks/{id}/status - should return bad request when bad format for completed")
+    void givenTaskCompletionRequestDtoInvalid_whenUpdateCompletedStatusTaskById_thenReturnBadRequest() throws Exception {
         mockMvc.perform(patch("/api/tasks/1/status")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"completed\": notABoolean}"))

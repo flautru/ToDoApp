@@ -17,8 +17,8 @@ class UserRepositoryTest {
     UserRepository userRepository;
 
     @Test
-    @DisplayName("Test findByUsername existent")
-    void testFindByUsernameValid() {
+    @DisplayName("should return username when existing username")
+    void givenExistingUser_whenFindByUsername_thenReturnUser() {
         User user = new User(null, "Test", "password", "roleTest");
 
         userRepository.save(user);
@@ -32,8 +32,8 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("Test findByUsername nonexistent ")
-    void testFindByUsernameInvalid() {
+    @DisplayName("should return optionnal empty when non existing username ")
+    void givenNoExistingUser_whenFindByUsername_thenReturnOptionalEmpty() {
         Optional<User> findingUser = userRepository.findByUsername("NonExistent");
 
         assertEquals(Optional.empty(), findingUser);

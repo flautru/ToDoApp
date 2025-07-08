@@ -47,8 +47,8 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @DisplayName("GET /api/users/{id} should return user")
-    void shouldReturnUser_whenfindUserByIdValid() throws Exception {
+    @DisplayName("GET /api/users/{id} should return userDto when existing id")
+    void givenValidUserId_whenFindUserById_thenReturnUserDto() throws Exception {
         Long userId = 1L;
         User user = new User(userId, "testUser", "password", "role");
         UserDto userDto = new UserDto(userId, "testUser", "role");
@@ -66,8 +66,8 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/users/{id} should return 404")
-    void shouldReturn404_whenfindUserByIdInvalid() throws Exception {
+    @DisplayName("GET /api/users/{id} should return 404 when no found id")
+    void givenNoValidUserId_whenFindUserById_thenReturn404() throws Exception {
         Long invalidId = 999L;
 
         Mockito.when(userService.findUserById(invalidId)).thenThrow(new UserNotFoundException("User not found with id " + invalidId));
@@ -79,8 +79,8 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("POST /api/users/add should return UserDto")
-    void shouldReturnUserDto_whenSaveUserValid() throws Exception {
+    @DisplayName("POST /api/users/add should return UserDto when valid User")
+    void givenValidUser_whenSave_thenReturnUserDto() throws Exception {
         User user = new User(null, "testUser", "password", "role");
         User userSaved = new User(1L, "testUser", "password", "role");
         UserDto userDto = new UserDto(1L, "testUser", "role");
@@ -98,8 +98,8 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("POST /api/users/add should return 400")
-    void shouldReturn400_whenSaveWithInvalidUser() throws Exception {
+    @DisplayName("POST /api/users/add should return 400 when bad User")
+    void givenNoValidUser_whenSave_thenReturn400() throws Exception {
         User user = new User(null, "", "", "role");
 
 
@@ -110,8 +110,8 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("POST /api/users/add should return 409")
-    void shouldReturn409_whenSaveWithUsernameAlreadyExist() throws Exception {
+    @DisplayName("POST /api/users/add should return 409 when username already exist")
+    void givenExistingUser_whenSave_thenReturn409() throws Exception {
         String existingUsername = "existingUsername";
         User user = new User(null, existingUsername, "test", "role");
 
@@ -125,8 +125,8 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("DELETE /api/tasks/{id} - should delete task by id")
-    void shouldDeleteTaskAndReturnNoContent_whenValidIdProvided() throws Exception {
+    @DisplayName("DELETE /api/users/{id} - should delete user by id when existing id")
+    void givenExistingUserId_whenDeleteById_thenReturnNoContent() throws Exception {
         mockMvc.perform(delete("/api/users/1"))
                 .andExpect(status().isNoContent());
 
@@ -134,8 +134,8 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("DELETE /api/users/{id} - should delete user by id")
-    void shouldReturnError_whenDeleteNonExistingTaskById() throws Exception {
+    @DisplayName("DELETE /api/users/{id} - should throw userNotFound when no existing id")
+    void givenNonExistingUserId_whenDeleteById_thenReturnUserNotFound() throws Exception {
         Long userId = 99L;
 
         doThrow(new UserNotFoundException(userId.toString())).when(userService).deleteById(userId);

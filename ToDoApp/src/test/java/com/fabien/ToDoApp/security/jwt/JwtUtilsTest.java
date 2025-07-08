@@ -23,7 +23,7 @@ class JwtUtilsTest {
     }
 
     @Test
-    public void testGenerateAndValidToken() {
+    public void givenUser_whenGenerateJwtToken_thenTokenIsValid() {
         String token = jwtUtils.generateJwtToken(testUser);
 
         assertNotNull(token);
@@ -31,7 +31,7 @@ class JwtUtilsTest {
     }
 
     @Test
-    public void testGetUsernameFromToken() {
+    public void givenValidToken_whenGetUsername_thenReturnUsername() {
         String token = jwtUtils.generateJwtToken(testUser);
         String username = jwtUtils.getUsernameFromJwtToken(token);
 
@@ -39,14 +39,14 @@ class JwtUtilsTest {
     }
 
     @Test
-    public void testInvalidToken() {
+    public void givenInvalidToken_whenValidateJwtToken_thenReturnFalse() {
         String invalidToken = "invalid.token.value";
 
         assertFalse(jwtUtils.validateJwtToken(invalidToken));
     }
 
     @Test
-    public void testValidateJwtToken_invalidFormat() {
+    public void givenInvalidFormatToken_whenValidateJwtToken_thenReturnFalse() {
         String invalidToken = "not.a.valid.token";
 
         JwtUtils utils = new JwtUtils();

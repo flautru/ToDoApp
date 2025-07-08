@@ -17,8 +17,8 @@ class TaskRepositoryTest {
     TaskRepository taskRepository;
 
     @Test
-    @DisplayName("Test findByCompleted(true)")
-    void testFindByCompletedTrue() {
+    @DisplayName("should return completed task when completed true")
+    void givenCompletedTasks_whenFindByCompletedTrue_thenReturnCompletedTasks() {
         Task task1 = new Task(null, "Tache 1", "Description 1", true);
         Task task2 = new Task(null, "Tache 2", "Description 2", false);
         Task task3 = new Task(null, "Tache 3", "Description 3", true);
@@ -34,8 +34,8 @@ class TaskRepositoryTest {
     }
 
     @Test
-    @DisplayName("Test findByCompleted(false)")
-    void testFindByCompletedFalse() {
+    @DisplayName("should return no completed task when completed false")
+    void givenNoCompletedTasks_whenFindByCompletedFalse_thenReturnNoCompletedTasks() {
         Task task1 = new Task(null, "Tache 1", "Description 1", true);
         Task task2 = new Task(null, "Tache 2", "Description 2", false);
         Task task3 = new Task(null, "Tache 3", "Description 3", false);

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaskMapperTest {
 
     @Test
-    void testToDto() {
+    void givenValidTask_whenMapToDto_thenReturnTaskDto() {
         Task task = new Task(1L, "Test Task", "Test description", true);
 
         TaskDto taskDto = TaskMapper.toDto(task);
@@ -21,7 +21,7 @@ class TaskMapperTest {
     }
 
     @Test
-    void TestToEntity() {
+    void givenValidTaskDto_whenMapToDto_thenReturnTask() {
         TaskDto taskDto = new TaskDto(1L, "Test Task", "Test description", true);
 
         Task task = TaskMapper.toEntity(taskDto);
@@ -33,7 +33,7 @@ class TaskMapperTest {
     }
 
     @Test
-    void TestToDtoWithNullValues() {
+    void givenValidTaskWithNullValue_whenMapToDto_thenReturnTaskDtoWithNullValue() {
         Task task = new Task();
 
         TaskDto taskDto = TaskMapper.toDto(task);
@@ -46,7 +46,7 @@ class TaskMapperTest {
     }
 
     @Test
-    void testToEntityWithNullValues() {
+    void givenValidTaskDtoWithNullValue_whenMapToDto_thenReturnTaskWithNullValue() {
         TaskDto taskDto = new TaskDto();
 
         Task task = TaskMapper.toEntity(taskDto);

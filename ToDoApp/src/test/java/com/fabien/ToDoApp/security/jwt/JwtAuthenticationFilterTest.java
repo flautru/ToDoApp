@@ -44,7 +44,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    public void testDoFilterInternal_validToken() throws Exception {
+    public void givenValidToken_whenDoFilterInternal_thenSetsAuthentication() throws Exception {
         String token = "valid.token";
         String username = "testuser";
 
@@ -61,7 +61,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    public void testDoFilterInternal_invalidToken() throws Exception {
+    public void givenInvalidToken_whenDoFilterInternal_thenNotSetsAuthentication() throws Exception {
         when(request.getHeader("Authorization")).thenReturn("Bearer invalid");
         when(jwtUtils.validateJwtToken("invalid")).thenReturn(false);
 
@@ -72,7 +72,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    public void testDoFilterInternal_noHeader() throws Exception {
+    public void givenNoAuthHeader_whenDoFilterInternal_thenSkipAuthentication() throws Exception {
         when(request.getHeader("Authorization")).thenReturn(null);
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
@@ -82,7 +82,7 @@ class JwtAuthenticationFilterTest {
     }
 
     @Test
-    public void testDoFilterInternal_headerWithoutBearer() throws Exception {
+    public void givenAuthHeaderWithoutBearer_whenDoFilterInternal_thenSkipAuthentication() throws Exception {
         when(request.getHeader("Authorization")).thenReturn("TokenWithoutBearerPrefix");
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
