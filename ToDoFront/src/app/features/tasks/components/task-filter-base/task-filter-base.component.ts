@@ -5,11 +5,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export abstract class TaskFilterBaseComponent {
   tasks: Task[] = [];
   searchTerm: string = '';
-  filteredTasks : Task[] = [];
+  filteredTasks: Task[] = [];
   loading = false;
   errorMessage: string | null = null;
 
-  constructor(protected taskService: TaskService, protected errorHandler: ErrorHandlerService, private snackBar: MatSnackBar) {}
+  constructor(
+    protected taskService: TaskService,
+    protected errorHandler: ErrorHandlerService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   onFilterChange(filter?: 'all' | 'completed' | 'incomplete'): void {
     this.loading = true;
@@ -18,28 +22,34 @@ export abstract class TaskFilterBaseComponent {
         this.loading = false;
         this.tasks = tasks ?? [];
         this.filterTasks();
-        this.errorMessage = this.filteredTasks?.length ? '' : 'Aucune tâche trouvée.';
+        this.errorMessage = this.filteredTasks?.length
+          ? ''
+          : 'Aucune tâche trouvée.';
       },
       error: (err) => {
         this.loading = false;
-        this.errorMessage ='';
-        this.errorHandler.handle(err, 'Erreur lors de la récupération des tâches');
-      }
+        this.errorMessage = '';
+        this.errorHandler.handle(
+          err,
+          'Erreur lors de la récupération des tâches',
+        );
+      },
     });
-
   }
 
-filterTasks(): void {
-  if (!this.tasks) {
-    this.filteredTasks = [];
-    return;
+  filterTasks(): void {
+    if (!this.tasks) {
+      this.filteredTasks = [];
+      return;
+    }
+    const term = this.searchTerm.toLowerCase();
+    this.filteredTasks = this.tasks.filter((task) =>
+      task.label.toLowerCase().includes(term),
+    );
+    this.errorMessage = this.filteredTasks?.length
+      ? ''
+      : 'Aucune tâche trouvée.';
   }
-  const term = this.searchTerm.toLowerCase();
-  this.filteredTasks = this.tasks.filter((task) =>
-    task.label.toLowerCase().includes(term)
-  );
-  this.errorMessage = this.filteredTasks?.length ? '' : 'Aucune tâche trouvée.';
-}
 
   toggleCompletedStatus(task: Task): void {
     const newStatus = !task.completed;
@@ -48,7 +58,7 @@ filterTasks(): void {
         task.completed = newStatus;
       },
       error: (err) => {
-        this.errorHandler.handle(err,'Échec de la mise à jour du statut')
+        this.errorHandler.handle(err, 'Échec de la mise à jour du statut');
       },
     });
   }
@@ -65,7 +75,9 @@ filterTasks(): void {
     this.taskService.deleteTask(id).subscribe({
       next: () => {
         //this.tasks = this.tasks.filter((task) => task.id !== id);
-        this.filteredTasks = this.filteredTasks.filter((task) => task.id !== id);
+        this.filteredTasks = this.filteredTasks.filter(
+          (task) => task.id !== id,
+        );
         this.snackBar.open('Tâche supprimée avec succès', 'Fermer', {
           duration: 3000,
           horizontalPosition: 'center',
@@ -78,7 +90,7 @@ filterTasks(): void {
     });
   }
 
-    onValidateSearch(term: string): void {
+  onValidateSearch(term: string): void {
     this.searchTerm = term;
     this.filterTasks();
   }

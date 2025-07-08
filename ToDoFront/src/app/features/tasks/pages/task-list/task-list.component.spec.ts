@@ -1,4 +1,9 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { TaskListComponent } from './task-list.component';
 import { TaskService } from '../../services/task.service';
 import { Router } from '@angular/router';
@@ -82,7 +87,7 @@ describe('TaskListComponent', () => {
 
   it('should set errorMessage when getFilteredTasks throws', () => {
     taskServiceMock.getFilteredTasks.and.returnValue(
-      throwError(() => new Error('Erreur API'))
+      throwError(() => new Error('Erreur API')),
     );
     component.onFilterChange('completed');
     expect(component.errorMessage).toBe('');
@@ -94,7 +99,7 @@ describe('TaskListComponent', () => {
     component.onTaskClick(task);
     expect(routerMock.navigate).toHaveBeenCalledWith(
       ['tasks', task.id, 'edit'],
-      { queryParams: { from: 'list' } }
+      { queryParams: { from: 'list' } },
     );
   });
 
@@ -133,7 +138,7 @@ describe('TaskListComponent', () => {
     it('should call onTaskClick when a list item is clicked', () => {
       spyOn(component, 'onTaskClick');
       const items = fixture.debugElement.queryAll(
-        By.css('.task-item .task-container')
+        By.css('.task-item .task-container'),
       );
       items[0].nativeElement.click();
       expect(component.onTaskClick).toHaveBeenCalledWith(mockTasks[0]);
@@ -166,7 +171,7 @@ describe('TaskListComponent', () => {
       expect(snackBar.open).toHaveBeenCalledWith(
         'Tâche supprimée avec succès',
         'Fermer',
-        jasmine.objectContaining({ duration: 3000 })
+        jasmine.objectContaining({ duration: 3000 }),
       );
     }));
 
@@ -181,7 +186,7 @@ describe('TaskListComponent', () => {
       component.deleteTask(mockTasks[0].id!);
       expect(errorHandler.handle).toHaveBeenCalledWith(
         'Erreur API',
-        'Échec de la suppression de la tâche'
+        'Échec de la suppression de la tâche',
       );
     });
   });

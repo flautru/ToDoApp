@@ -1,5 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { UsersService } from './users.service';
 import { User, UserDto } from '../models/user.model';
 
@@ -9,7 +12,7 @@ describe('UsersService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(UsersService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -27,7 +30,7 @@ describe('UsersService', () => {
     const user: User = { username: 'john', password: '123', role: 'admin' };
     const userDto: UserDto = { username: 'john', role: 'admin' };
 
-    service.postUser(user).subscribe(result => {
+    service.postUser(user).subscribe((result) => {
       expect(result).toEqual(userDto);
     });
 
@@ -40,7 +43,7 @@ describe('UsersService', () => {
   it('should get a user by id', () => {
     const userDto: UserDto = { username: 'john', role: 'admin' };
 
-    service.getUserById(1).subscribe(result => {
+    service.getUserById(1).subscribe((result) => {
       expect(result).toEqual(userDto);
     });
 
@@ -50,7 +53,7 @@ describe('UsersService', () => {
   });
 
   it('should delete a user by id', () => {
-    service.deleteUserById(1).subscribe(result => {
+    service.deleteUserById(1).subscribe((result) => {
       expect(result).toBeTruthy();
     });
 

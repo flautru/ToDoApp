@@ -5,8 +5,8 @@ import { NgModule } from '@angular/core';
 export const usersRoutes: Routes = [
   {
     path: 'add',
-    component: UserFormComponent
-  }
+    component: UserFormComponent,
+  },
 ];
 
 @NgModule({

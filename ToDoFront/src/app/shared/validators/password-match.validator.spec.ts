@@ -8,7 +8,7 @@ describe('passwordMatchValidator', () => {
         password: new FormControl('abc123'),
         confirmPassword: new FormControl('xyz789'),
       },
-      { validators: passwordMatchValidator }
+      { validators: passwordMatchValidator },
     );
 
     form.updateValueAndValidity();
@@ -24,7 +24,7 @@ describe('passwordMatchValidator', () => {
         password: new FormControl('abc123'),
         confirmPassword: new FormControl('abc123'),
       },
-      { validators: passwordMatchValidator }
+      { validators: passwordMatchValidator },
     );
 
     form.updateValueAndValidity();
@@ -38,7 +38,7 @@ describe('passwordMatchValidator', () => {
         password: new FormControl('initial'),
         confirmPassword: new FormControl('mismatch'),
       },
-      { validators: passwordMatchValidator }
+      { validators: passwordMatchValidator },
     );
 
     form.updateValueAndValidity();

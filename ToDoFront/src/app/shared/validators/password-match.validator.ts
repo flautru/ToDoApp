@@ -1,6 +1,13 @@
-import { AbstractControl, ValidationErrors, ValidatorFn, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+  FormGroup,
+} from '@angular/forms';
 
-export const passwordMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+export const passwordMatchValidator: ValidatorFn = (
+  group: AbstractControl,
+): ValidationErrors | null => {
   if (!(group instanceof FormGroup)) return null;
 
   const passwordControl = group.get('password');
@@ -17,7 +24,9 @@ export const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Val
     if (confirmPasswordControl.hasError('passwordMismatch')) {
       const errors = { ...confirmPasswordControl.errors };
       delete errors['passwordMismatch'];
-      confirmPasswordControl.setErrors(Object.keys(errors).length ? errors : null);
+      confirmPasswordControl.setErrors(
+        Object.keys(errors).length ? errors : null,
+      );
     }
   }
 

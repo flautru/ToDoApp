@@ -27,15 +27,17 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
 })
-export class TaskListComponent extends TaskFilterBaseComponent implements OnInit  {
-
+export class TaskListComponent
+  extends TaskFilterBaseComponent
+  implements OnInit
+{
   statusFilter: 'all' | 'completed' | 'incomplete' = 'all';
 
   constructor(
     taskService: TaskService,
     private router: Router,
     private snackBarList: MatSnackBar,
-    errorHandler: ErrorHandlerService
+    errorHandler: ErrorHandlerService,
   ) {
     super(taskService, errorHandler, snackBarList);
     this.onFilterChange(this.statusFilter);

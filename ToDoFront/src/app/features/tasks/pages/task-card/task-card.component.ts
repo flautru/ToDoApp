@@ -42,16 +42,19 @@ import { ErrorHandlerService } from '../../../../core/services/error/error-handl
   styleUrl: './task-card.component.css',
   standalone: true,
 })
-export class TaskCardComponent extends TaskFilterBaseComponent implements OnInit {
+export class TaskCardComponent
+  extends TaskFilterBaseComponent
+  implements OnInit
+{
   statusFilter: 'all' | 'completed' | 'incomplete' = 'all';
 
   constructor(
     taskService: TaskService,
     private snackBarCard: MatSnackBar,
     private router: Router,
-    errorHandler: ErrorHandlerService
+    errorHandler: ErrorHandlerService,
   ) {
-    super(taskService, errorHandler,snackBarCard);
+    super(taskService, errorHandler, snackBarCard);
     this.onFilterChange(this.statusFilter);
   }
 
@@ -59,7 +62,7 @@ export class TaskCardComponent extends TaskFilterBaseComponent implements OnInit
     this.onFilterChange(this.statusFilter);
   }
 
-    onTaskClick(task: Task): void {
+  onTaskClick(task: Task): void {
     this.router.navigate(['tasks', task.id, 'edit'], {
       queryParams: { from: 'card' },
     });
@@ -68,5 +71,4 @@ export class TaskCardComponent extends TaskFilterBaseComponent implements OnInit
   onAddTask(): void {
     this.router.navigate(['tasks', 'new'], { queryParams: { from: 'card' } });
   }
-
 }

@@ -6,13 +6,25 @@
         <p>
           <mat-form-field appearance="fill">
             <mat-label>Nom d'utilisateur</mat-label>
-            <input type="text" matInput placeholder="Nom d'utilisateur" formControlName="username" required="true">
+            <input
+              type="text"
+              matInput
+              placeholder="Nom d'utilisateur"
+              formControlName="username"
+              required="true"
+            />
           </mat-form-field>
         </p>
         <p>
           <mat-form-field appearance="fill">
             <mat-label>Mot de passe</mat-label>
-            <input type="password" matInput placeholder="Mot de passe" formControlName="password" required>
+            <input
+              type="password"
+              matInput
+              placeholder="Mot de passe"
+              formControlName="password"
+              required
+            />
           </mat-form-field>
         </p>
         <mat-error *ngIf="loginError">
@@ -26,8 +38,8 @@
   </mat-card>
 </div>
 
- <div class="create-user-btn">
-    <button color="primary" class="custom-button" [routerLink]="'/users/add'">
-        Créer un utilisateur
-      </button>
-  </div>
+<div class="create-user-btn">
+  <button color="primary" class="custom-button" [routerLink]="'/users/add'">
+    Créer un utilisateur
+  </button>
+</div>

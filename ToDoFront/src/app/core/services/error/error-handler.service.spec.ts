@@ -12,8 +12,8 @@ describe('ErrorHandlerService', () => {
     TestBed.configureTestingModule({
       providers: [
         ErrorHandlerService,
-        { provide: MatSnackBar, useValue: snackBarSpy }
-      ]
+        { provide: MatSnackBar, useValue: snackBarSpy },
+      ],
     });
     service = TestBed.inject(ErrorHandlerService);
   });
@@ -27,7 +27,7 @@ describe('ErrorHandlerService', () => {
     expect(snackBarSpy.open).toHaveBeenCalledWith(
       'Une erreur est survenue. Veuillez réessayer plus tard.',
       'Fermer',
-      jasmine.objectContaining({ duration: 5000 })
+      jasmine.objectContaining({ duration: 5000 }),
     );
   });
 
@@ -36,7 +36,7 @@ describe('ErrorHandlerService', () => {
     expect(snackBarSpy.open).toHaveBeenCalledWith(
       'Custom message',
       'Fermer',
-      jasmine.objectContaining({ duration: 5000 })
+      jasmine.objectContaining({ duration: 5000 }),
     );
   });
 
@@ -46,7 +46,7 @@ describe('ErrorHandlerService', () => {
     expect(snackBarSpy.open).toHaveBeenCalledWith(
       'Le serveur est inaccessible. Veuillez vérifier votre connexion Internet.',
       'Fermer',
-      jasmine.objectContaining({ duration: 5000 })
+      jasmine.objectContaining({ duration: 5000 }),
     );
   });
 
@@ -56,7 +56,7 @@ describe('ErrorHandlerService', () => {
     expect(snackBarSpy.open).toHaveBeenCalledWith(
       'Une erreur interne du serveur est survenue.',
       'Fermer',
-      jasmine.objectContaining({ duration: 5000 })
+      jasmine.objectContaining({ duration: 5000 }),
     );
   });
 
@@ -66,7 +66,7 @@ describe('ErrorHandlerService', () => {
     expect(snackBarSpy.open).toHaveBeenCalledWith(
       'Ressource non trouvée.',
       'Fermer',
-      jasmine.objectContaining({ duration: 5000 })
+      jasmine.objectContaining({ duration: 5000 }),
     );
   });
 
@@ -76,7 +76,7 @@ describe('ErrorHandlerService', () => {
     expect(snackBarSpy.open).toHaveBeenCalledWith(
       'Une erreur de requête a été détectée.',
       'Fermer',
-      jasmine.objectContaining({ duration: 5000 })
+      jasmine.objectContaining({ duration: 5000 }),
     );
   });
 
@@ -85,7 +85,7 @@ describe('ErrorHandlerService', () => {
     expect(snackBarSpy.open).toHaveBeenCalledWith(
       'Erreur API',
       'Fermer',
-      jasmine.objectContaining({ duration: 5000 })
+      jasmine.objectContaining({ duration: 5000 }),
     );
   });
 });

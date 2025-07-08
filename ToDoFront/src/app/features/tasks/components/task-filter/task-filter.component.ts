@@ -9,7 +9,15 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-task-filter',
-  imports: [CommonModule, FormsModule, MatButtonToggleModule, MatFormFieldModule, MatIconModule, MatInputModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonToggleModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './task-filter.component.html',
   styleUrl: './task-filter.component.css',
 })
@@ -35,7 +43,7 @@ export class TaskFilterComponent {
     this.searchTerm = '';
     this.validateClicked.emit(this.searchTerm);
   }
-  
+
   onAdd(): void {
     this.addClicked.emit();
   }

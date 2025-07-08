@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { Task } from '../model/task.model';
 
-
 export interface TaskCompletionRequestDto {
   completed: boolean;
 }
@@ -37,7 +36,7 @@ export class TaskService {
       catchError((error) => {
         console.error('Erreur lors de la récupération des tâches', error);
         return of([]);
-      })
+      }),
     );
   }
 

@@ -17,8 +17,8 @@ describe('AuthGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
-        { provide: Router, useValue: routerSpy }
-      ]
+        { provide: Router, useValue: routerSpy },
+      ],
     });
   });
 

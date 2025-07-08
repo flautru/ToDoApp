@@ -39,7 +39,6 @@ mat-card {
   background-color: red;
   margin-bottom: 12px;
   font-weight: 400;
-
 }
 ::ng-deep mat-error {
   font-size: 13px;

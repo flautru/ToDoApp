@@ -27,8 +27,8 @@ describe('UserFormComponent', () => {
         { provide: UsersService, useValue: usersServiceSpy },
         { provide: ErrorHandlerService, useValue: errorHandlerSpy },
         { provide: MatSnackBar, useValue: snackBarSpy },
-        { provide: Router, useValue: routerSpy }
-      ]
+        { provide: Router, useValue: routerSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserFormComponent);
@@ -41,34 +41,63 @@ describe('UserFormComponent', () => {
   });
 
   it('should not submit if form is invalid', () => {
-    component.userForm.setValue({ username: '', password: '', confirmPassword: '', role: '' });
+    component.userForm.setValue({
+      username: '',
+      password: '',
+      confirmPassword: '',
+      role: '',
+    });
     component.onSubmit();
     expect(usersServiceSpy.postUser).not.toHaveBeenCalled();
   });
 
   it('should call usersService and show snackbar on success', () => {
-    component.userForm.setValue({ username: 'user', password: 'pass', confirmPassword: 'pass', role: 'admin' });
-    usersServiceSpy.postUser.and.returnValue(of({ username: 'user', role: 'admin' }));
+    component.userForm.setValue({
+      username: 'user',
+      password: 'pass',
+      confirmPassword: 'pass',
+      role: 'admin',
+    });
+    usersServiceSpy.postUser.and.returnValue(
+      of({ username: 'user', role: 'admin' }),
+    );
 
     component.onSubmit();
 
-    expect(usersServiceSpy.postUser).toHaveBeenCalledWith({ username: 'user', password: 'pass', role: 'admin' });
+    expect(usersServiceSpy.postUser).toHaveBeenCalledWith({
+      username: 'user',
+      password: 'pass',
+      role: 'admin',
+    });
     expect(snackBarSpy.open).toHaveBeenCalledWith(
       'Utilisateur créé avec succès',
       'Fermer',
-      jasmine.objectContaining({ duration: 5000 })
+      jasmine.objectContaining({ duration: 5000 }),
     );
     expect(component.loading).toBeFalse();
-    expect(component.userForm.value).toEqual({ username: null, password: null, confirmPassword: null,  role: null });
+    expect(component.userForm.value).toEqual({
+      username: null,
+      password: null,
+      confirmPassword: null,
+      role: null,
+    });
   });
 
   it('should call errorHandler on error', () => {
-    component.userForm.setValue({ username: 'user', password: 'pass', confirmPassword: 'pass', role: 'admin' });
+    component.userForm.setValue({
+      username: 'user',
+      password: 'pass',
+      confirmPassword: 'pass',
+      role: 'admin',
+    });
     usersServiceSpy.postUser.and.returnValue(throwError(() => 'Erreur API'));
 
     component.onSubmit();
 
-    expect(errorHandlerSpy.handle).toHaveBeenCalledWith('Erreur API', "Erreur lors de la création de l'utilisateur");
+    expect(errorHandlerSpy.handle).toHaveBeenCalledWith(
+      'Erreur API',
+      "Erreur lors de la création de l'utilisateur",
+    );
     expect(component.loading).toBeFalse();
   });
 

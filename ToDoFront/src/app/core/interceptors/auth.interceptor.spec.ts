@@ -9,15 +9,15 @@ describe('authInterceptor', () => {
 
   const makeRequest = (headers = {}) =>
     new HttpRequest('GET', '/api/test', {
-    headers: new HttpHeaders(headers)
-  });
+      headers: new HttpHeaders(headers),
+    });
 
   beforeEach(() => {
     authServiceSpy = jasmine.createSpyObj('AuthService', ['getToken']);
     nextSpy = jasmine.createSpy('next').and.callFake((req) => req);
 
     TestBed.configureTestingModule({
-      providers: [{ provide: AuthService, useValue: authServiceSpy }]
+      providers: [{ provide: AuthService, useValue: authServiceSpy }],
     });
   });
 

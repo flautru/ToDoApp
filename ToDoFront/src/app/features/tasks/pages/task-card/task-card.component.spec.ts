@@ -1,4 +1,9 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { TaskCardComponent } from './task-card.component';
 import { TaskService } from '../../services/task.service';
 import { of } from 'rxjs';
@@ -151,17 +156,17 @@ describe('TaskCardComponent', () => {
   }));
 
   it('should show error snackbar on delete error', () => {
-  const errorHandler = TestBed.inject(ErrorHandlerService);
-  spyOn(errorHandler, 'handle');
-  taskServiceMock.deleteTask.and.returnValue({
-    subscribe: (observer: any) => observer.error('Erreur API'),
-  } as any);
-  component.tasks = [...mockTasks];
-  component.deleteTask(mockTasks[0].id!);
-  expect(errorHandler.handle).toHaveBeenCalledWith(
-    'Erreur API',
-    'Échec de la suppression de la tâche'
-  );
+    const errorHandler = TestBed.inject(ErrorHandlerService);
+    spyOn(errorHandler, 'handle');
+    taskServiceMock.deleteTask.and.returnValue({
+      subscribe: (observer: any) => observer.error('Erreur API'),
+    } as any);
+    component.tasks = [...mockTasks];
+    component.deleteTask(mockTasks[0].id!);
+    expect(errorHandler.handle).toHaveBeenCalledWith(
+      'Erreur API',
+      'Échec de la suppression de la tâche',
+    );
   });
 });
 describe('TaskCardComponent DOM', () => {

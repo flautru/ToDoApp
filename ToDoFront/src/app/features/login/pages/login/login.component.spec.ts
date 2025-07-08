@@ -24,8 +24,8 @@ describe('LoginComponent', () => {
         { provide: LoginService, useValue: loginServiceSpy },
         { provide: ErrorHandlerService, useValue: errorHandlerSpy },
         { provide: Router, useValue: routerSpy },
-        { provide: ActivatedRoute, useValue: {}}
-      ]
+        { provide: ActivatedRoute, useValue: {} },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
@@ -42,7 +42,7 @@ describe('LoginComponent', () => {
     component.onSubmit();
     expect(errorHandlerSpy.handle).toHaveBeenCalledWith(
       'Formulaire invalide',
-      'Veuillez remplir tous les champs requis.'
+      'Veuillez remplir tous les champs requis.',
     );
   });
 
@@ -54,7 +54,10 @@ describe('LoginComponent', () => {
 
     component.onSubmit();
 
-    expect(loginServiceSpy.login).toHaveBeenCalledWith({ username: 'user', password: 'pass' });
+    expect(loginServiceSpy.login).toHaveBeenCalledWith({
+      username: 'user',
+      password: 'pass',
+    });
     expect(localStorage.setItem).toHaveBeenCalledWith('token', 'abc123');
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/tasks/list']);
   });
@@ -65,6 +68,9 @@ describe('LoginComponent', () => {
 
     component.onSubmit();
 
-    expect(errorHandlerSpy.handle).toHaveBeenCalledWith('Echec de la connexion', 'Erreur API');
+    expect(errorHandlerSpy.handle).toHaveBeenCalledWith(
+      'Echec de la connexion',
+      'Erreur API',
+    );
   });
 });

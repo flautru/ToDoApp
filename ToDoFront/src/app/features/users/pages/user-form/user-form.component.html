@@ -16,8 +16,18 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Confirmer mot de passe</mat-label>
-        <input matInput type="password" formControlName="confirmPassword" required />
-        <mat-error *ngIf="userForm.get('confirmPassword')?.hasError('passwordMismatch') && userForm.get('confirmPassword')?.touched">
+        <input
+          matInput
+          type="password"
+          formControlName="confirmPassword"
+          required
+        />
+        <mat-error
+          *ngIf="
+            userForm.get('confirmPassword')?.hasError('passwordMismatch') &&
+            userForm.get('confirmPassword')?.touched
+          "
+        >
           Les mots de passe ne correspondent pas.
         </mat-error>
       </mat-form-field>
@@ -31,7 +41,11 @@
         <button
           class="custom-button"
           type="submit"
-          [disabled]="userForm.invalid || userForm.get('confirmPassword')?.hasError('passwordMismatch') || loading"
+          [disabled]="
+            userForm.invalid ||
+            userForm.get('confirmPassword')?.hasError('passwordMismatch') ||
+            loading
+          "
         >
           Créer
           <div *ngIf="loading" class="spinner">

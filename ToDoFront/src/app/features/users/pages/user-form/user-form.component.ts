@@ -43,7 +43,7 @@ export class UserFormComponent implements OnInit {
     private userService: UsersService,
     private errorHandler: ErrorHandlerService,
     private snackBar: MatSnackBar,
-    private route: Router
+    private route: Router,
   ) {
     this.userForm = this.fb.group(
       {
@@ -54,7 +54,7 @@ export class UserFormComponent implements OnInit {
       },
       {
         validators: passwordMatchValidator,
-      }
+      },
     );
   }
 
@@ -81,7 +81,7 @@ export class UserFormComponent implements OnInit {
       error: (error) => {
         this.errorHandler.handle(
           error,
-          "Erreur lors de la création de l'utilisateur"
+          "Erreur lors de la création de l'utilisateur",
         );
         this.loading = false;
       },

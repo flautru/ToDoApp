@@ -2,7 +2,11 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: 'login', loadChildren: () => import('./features/login/login.module').then((m) => m.LoginModule) },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./features/login/login.module').then((m) => m.LoginModule),
+  },
   {
     path: 'users',
     loadChildren: () =>
@@ -10,9 +14,9 @@ export const routes: Routes = [
   },
   {
     path: 'tasks',
-    canActivate:[AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
-    import('./features/tasks/tasks.module').then((m) => m.TasksModule),
+      import('./features/tasks/tasks.module').then((m) => m.TasksModule),
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },

@@ -54,7 +54,7 @@ export class TaskFormComponent implements OnInit {
     private taskService: TaskService,
     private route: ActivatedRoute,
     private router: Router,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
   ) {
     this.taskForm = this.fb.group({
       label: ['', [Validators.required, Validators.maxLength(100)]],
@@ -95,7 +95,7 @@ export class TaskFormComponent implements OnInit {
         error: (err) => {
           this.loading = false;
           this.errorHandler.handle(err, 'Échec de la mise à jour de la tâche');
-        }
+        },
       });
     } else {
       this.taskService.postTask(taskData).subscribe({
@@ -107,7 +107,7 @@ export class TaskFormComponent implements OnInit {
           this.loading = false;
           this.errorHandler.handle(err, 'Échec de la création de la tâche');
         },
-    });
+      });
     }
   }
 

@@ -11,23 +11,39 @@ import { Router, RouterModule } from '@angular/router';
 import { Validators } from '@angular/forms';
 @Component({
   selector: 'app-login',
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule, MatButton, RouterModule],
+  imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatButton,
+    RouterModule,
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   loginForm: FormGroup;
   loginError: string | null = null;
-  constructor(private loginService: LoginService, private fb: FormBuilder, private errorHandler: ErrorHandlerService, private route: Router) {
+  constructor(
+    private loginService: LoginService,
+    private fb: FormBuilder,
+    private errorHandler: ErrorHandlerService,
+    private route: Router,
+  ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      this.errorHandler.handle('Formulaire invalide', 'Veuillez remplir tous les champs requis.');
+      this.errorHandler.handle(
+        'Formulaire invalide',
+        'Veuillez remplir tous les champs requis.',
+      );
       return;
     }
     const loginRequest = this.loginForm.value;
@@ -40,9 +56,8 @@ export class LoginComponent {
       },
       error: (error) => {
         this.errorHandler.handle('Echec de la connexion', error);
-        this.loginError = "Username ou mot de passe incorrect";
-      }
+        this.loginError = 'Username ou mot de passe incorrect';
+      },
     });
   }
-
 }

@@ -1,5 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { LoginService, LoginResponse } from './login.service';
 import { LoginRequest } from '../model/login-request.model';
 
@@ -9,7 +12,7 @@ describe('LoginService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
     service = TestBed.inject(LoginService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -27,7 +30,7 @@ describe('LoginService', () => {
     const loginRequest: LoginRequest = { username: 'user', password: 'pass' };
     const mockResponse: LoginResponse = { token: 'abc123' };
 
-    service.login(loginRequest).subscribe(response => {
+    service.login(loginRequest).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
 

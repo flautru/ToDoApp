@@ -9,7 +9,13 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [MatToolbarModule, FormsModule, MatMenuModule, MatButtonModule, CommonModule],
+  imports: [
+    MatToolbarModule,
+    FormsModule,
+    MatMenuModule,
+    MatButtonModule,
+    CommonModule,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
   standalone: true,
@@ -17,7 +23,10 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent {
   viewMode: 'list' | 'card' = 'list';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+  ) {}
 
   goListView(): void {
     this.router.navigate(['/tasks/list']);
