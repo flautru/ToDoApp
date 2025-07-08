@@ -26,7 +26,7 @@ describe('TaskFilterBaseComponent', () => {
   ];
 
   beforeEach(() => {
-    taskServiceMock = jasmine.createSpyObj('TaskService', ['getFilteredTasks']);
+    taskServiceMock = jasmine.createSpyObj('TaskService', ['getFilteredTasks', 'updateTaskStatus', 'deleteTask']);
     errorHandlerMock = jasmine.createSpyObj('ErrorHandlerService', ['handle']);
     const snackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
     component = new TestComponent(
