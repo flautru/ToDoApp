@@ -1,3 +1,5 @@
+[![Backend Build](https://github.com/flautru/ToDoApp/actions/workflows/backend.yml/badge.svg)](https://github.com/flautru/ToDoApp/actions/workflows/backend.yml)
+[![Frontend Build](https://github.com/flautru/ToDoApp/actions/workflows/frontend.yml/badge.svg)](https://github.com/flautru/ToDoApp/actions/workflows/frontend.yml)
 # ToDoApp
 
 Application de gestion de tâches (To-Do List) comprenant :
@@ -5,14 +7,17 @@ Application de gestion de tâches (To-Do List) comprenant :
 - Un frontend Angular 19 moderne et responsive
 
 ## Sommaire
-- [Fonctionnalités](#fonctionnalités)
-- [Architecture](#architecture)
-- [Installation & Lancement](#installation--lancement)
-  - [Backend Java](#backend-java)
-  - [Frontend Angular](#frontend-angular)
-- [API REST](#api-rest)
-- [Tests](#tests)
-- [Auteur](#auteur)
+- [ToDoApp](#todoapp)
+  - [Sommaire](#sommaire)
+  - [Fonctionnalités](#fonctionnalités)
+  - [Architecture](#architecture)
+  - [Installation \& Lancement](#installation--lancement)
+    - [Backend Java](#backend-java)
+  - [L’API sera accessible sur http://localhost:8080/api/tasks.](#lapi-sera-accessible-sur-httplocalhost8080apitasks)
+    - [Frontend Angular](#frontend-angular)
+  - [API REST](#api-rest)
+  - [Tests](#tests)
+  - [Auteur](#auteur)
 
 ---
 
