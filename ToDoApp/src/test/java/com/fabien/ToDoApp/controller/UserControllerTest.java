@@ -57,10 +57,7 @@ class UserControllerTest {
 
         when(userMapper.toDto(user)).thenReturn(userDto);
 
-        mockMvc.perform(get("/api/users/{id}", userId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(userId))
-                .andExpect(jsonPath("$.username").value("testUser"));
+        mockMvc.perform(get("/api/users/{id}", userId)).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(userId)).andExpect(jsonPath("$.username").value("testUser"));
 
         verify(userService).findUserById(userId);
     }
@@ -72,10 +69,7 @@ class UserControllerTest {
 
         Mockito.when(userService.findUserById(invalidId)).thenThrow(new UserNotFoundException("User not found with id " + invalidId));
 
-
-        mockMvc.perform(get("/api/users/{id}", invalidId)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/users/{id}", invalidId).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
     }
 
     @Test
@@ -88,13 +82,7 @@ class UserControllerTest {
         when(userService.save(any(User.class))).thenReturn(userSaved);
         when(userMapper.toDto(userSaved)).thenReturn(userDto);
 
-        mockMvc.perform(post("/api/users/add")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.username").value("testUser"))
-                .andExpect(jsonPath("$.role").value("role"));
+        mockMvc.perform(post("/api/users/add").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user))).andExpect(status().isCreated()).andExpect(jsonPath("$.id").value(1L)).andExpect(jsonPath("$.username").value("testUser")).andExpect(jsonPath("$.role").value("role"));
     }
 
     @Test
@@ -102,11 +90,7 @@ class UserControllerTest {
     void givenNoValidUser_whenSave_thenReturn400() throws Exception {
         User user = new User(null, "", "", "role");
 
-
-        mockMvc.perform(post("/api/users/add")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(post("/api/users/add").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user))).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -117,18 +101,13 @@ class UserControllerTest {
 
         when(userService.save(any(User.class))).thenThrow(new UserNameAlreadyExistException(existingUsername));
 
-        mockMvc.perform(post("/api/users/add")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isConflict())
-                .andExpect(content().string("Username " + existingUsername + " already exist, try another one"));
+        mockMvc.perform(post("/api/users/add").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user))).andExpect(status().isConflict()).andExpect(content().string("Username " + existingUsername + " already exist, try another one"));
     }
 
     @Test
     @DisplayName("DELETE /api/users/{id} - should delete user by id when existing id")
     void givenExistingUserId_whenDeleteById_thenReturnNoContent() throws Exception {
-        mockMvc.perform(delete("/api/users/1"))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(delete("/api/users/1")).andExpect(status().isNoContent());
 
         verify(userService).deleteById(1L);
     }
@@ -139,8 +118,7 @@ class UserControllerTest {
         Long userId = 99L;
 
         doThrow(new UserNotFoundException(userId.toString())).when(userService).deleteById(userId);
-        mockMvc.perform(delete("/api/users/99"))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(delete("/api/users/99")).andExpect(status().isNotFound());
 
         verify(userService).deleteById(userId);
     }

@@ -6,7 +6,6 @@ import com.fabien.ToDoApp.model.Task;
 public class TaskMapper {
 
     public static TaskDto toDto(Task task) {
-
         TaskDto dto = new TaskDto();
         dto.setId(task.getId());
         dto.setLabel(task.getLabel());

@@ -1,6 +1,5 @@
 package com.fabien.ToDoApp.security.jwt;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,7 +8,6 @@ import org.springframework.security.core.userdetails.User;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 class JwtUtilsTest {
 
@@ -54,6 +52,4 @@ class JwtUtilsTest {
 
         assertFalse(result);
     }
-
-
 }

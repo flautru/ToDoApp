@@ -38,6 +38,4 @@ class UserRepositoryTest {
 
         assertEquals(Optional.empty(), findingUser);
     }
-
-
 }

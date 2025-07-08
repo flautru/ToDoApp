@@ -25,7 +25,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @WebMvcTest(TaskController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class TaskControllerTest {
@@ -53,13 +52,7 @@ class TaskControllerTest {
 
         when(taskService.findAllTasks()).thenReturn(List.of(TaskMapper.toEntity(taskDto1), TaskMapper.toEntity(taskDto2)));
 
-        mockMvc.perform(get("/api/tasks"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$.[0].id").value(1L))
-                .andExpect(jsonPath("$.[1].id").value(2L))
-                .andExpect(jsonPath("$.[0].label").value("Task 1"))
-                .andExpect(jsonPath("$.[1].label").value("Task 2"));
+        mockMvc.perform(get("/api/tasks")).andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(2)).andExpect(jsonPath("$.[0].id").value(1L)).andExpect(jsonPath("$.[1].id").value(2L)).andExpect(jsonPath("$.[0].label").value("Task 1")).andExpect(jsonPath("$.[1].label").value("Task 2"));
 
         verify(taskService).findAllTasks();
     }
@@ -71,11 +64,7 @@ class TaskControllerTest {
 
         when(taskService.findTasksByCompletedStatus(true)).thenReturn(List.of(TaskMapper.toEntity(completedTaskDto)));
 
-        mockMvc.perform(get("/api/tasks").param("completed", "true"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].label").value("Completed Task"))
-                .andExpect(jsonPath("$[0].completed").value(true));
+        mockMvc.perform(get("/api/tasks").param("completed", "true")).andExpect(status().isOk()).andExpect(jsonPath("$[0].id").value(1L)).andExpect(jsonPath("$[0].label").value("Completed Task")).andExpect(jsonPath("$[0].completed").value(true));
 
         verify(taskService).findTasksByCompletedStatus(true);
     }
@@ -87,11 +76,7 @@ class TaskControllerTest {
 
         when(taskService.findTasksByCompletedStatus(false)).thenReturn(List.of(TaskMapper.toEntity(incompleteTaskDto)));
 
-        mockMvc.perform(get("/api/tasks").param("completed", "false"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(2L))
-                .andExpect(jsonPath("$[0].label").value("Incomplete Task"))
-                .andExpect(jsonPath("$[0].completed").value(false));
+        mockMvc.perform(get("/api/tasks").param("completed", "false")).andExpect(status().isOk()).andExpect(jsonPath("$[0].id").value(2L)).andExpect(jsonPath("$[0].label").value("Incomplete Task")).andExpect(jsonPath("$[0].completed").value(false));
 
         verify(taskService).findTasksByCompletedStatus(false);
     }
@@ -102,8 +87,7 @@ class TaskControllerTest {
 
         when(taskService.findAllTasks()).thenReturn(List.of());
 
-        mockMvc.perform(get("/api/tasks"))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(get("/api/tasks")).andExpect(status().isNoContent());
 
         verify(taskService).findAllTasks();
     }
@@ -115,12 +99,7 @@ class TaskControllerTest {
 
         when(taskService.findTaskById(1L)).thenReturn(TaskMapper.toEntity(taskDto));
 
-        mockMvc.perform(get("/api/tasks/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.label").value("Task 1"))
-                .andExpect(jsonPath("$.description").value("Desc 1"))
-                .andExpect(jsonPath("$.completed").value(false));
+        mockMvc.perform(get("/api/tasks/1")).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(1L)).andExpect(jsonPath("$.label").value("Task 1")).andExpect(jsonPath("$.description").value("Desc 1")).andExpect(jsonPath("$.completed").value(false));
 
         verify(taskService).findTaskById(1L);
     }
@@ -132,14 +111,7 @@ class TaskControllerTest {
 
         when(taskService.saveTask(any(Task.class))).thenReturn(TaskMapper.toEntity(taskDto));
 
-        mockMvc.perform(post("/api/tasks")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.label").value("Task 1"))
-                .andExpect(jsonPath("$.description").value("Desc 1"))
-                .andExpect(jsonPath("$.completed").value(false));
+        mockMvc.perform(post("/api/tasks").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(taskDto))).andExpect(status().isCreated()).andExpect(jsonPath("$.id").value(1L)).andExpect(jsonPath("$.label").value("Task 1")).andExpect(jsonPath("$.description").value("Desc 1")).andExpect(jsonPath("$.completed").value(false));
 
         verify(taskService).saveTask(any(Task.class));
     }
@@ -151,14 +123,7 @@ class TaskControllerTest {
 
         when(taskService.updateTaskById(eq(1L), any(Task.class))).thenReturn(TaskMapper.toEntity(taskDto));
 
-        mockMvc.perform(put("/api/tasks/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.label").value("Task 1"))
-                .andExpect(jsonPath("$.description").value("Desc 1"))
-                .andExpect(jsonPath("$.completed").value(false));
+        mockMvc.perform(put("/api/tasks/1").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(taskDto))).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(1L)).andExpect(jsonPath("$.label").value("Task 1")).andExpect(jsonPath("$.description").value("Desc 1")).andExpect(jsonPath("$.completed").value(false));
 
         verify(taskService).updateTaskById(eq(1L), any(Task.class));
     }
@@ -171,11 +136,7 @@ class TaskControllerTest {
 
         when(taskService.updateTaskById(eq(taskId), any(Task.class))).thenThrow(new TaskNotFoundException("Task not found with id : " + taskId));
 
-        mockMvc.perform(put("/api/tasks/99")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Task not found with id : " + taskId));
+        mockMvc.perform(put("/api/tasks/99").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(taskDto))).andExpect(status().isNotFound()).andExpect(content().string("Task not found with id : " + taskId));
 
         verify(taskService).updateTaskById(eq(taskId), any(Task.class));
     }
@@ -183,8 +144,7 @@ class TaskControllerTest {
     @Test
     @DisplayName("DELETE /api/tasks/{id} - should delete task by id when task id exist")
     void givenExistingTaskId_whenDeleteTaskById_thenReturnNoContent() throws Exception {
-        mockMvc.perform(delete("/api/tasks/1"))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(delete("/api/tasks/1")).andExpect(status().isNoContent());
 
         verify(taskService).deleteTaskById(1L);
     }
@@ -194,8 +154,7 @@ class TaskControllerTest {
     void givenNonExistingTaskId_whenDeleteTaskById_thenReturnTaskNotFound() throws Exception {
         Long taskId = 99L;
         doThrow(new TaskNotFoundException("Task not found with id : " + taskId)).when(taskService).deleteTaskById(taskId);
-        mockMvc.perform(delete("/api/tasks/99"))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(delete("/api/tasks/99")).andExpect(status().isNotFound());
 
         verify(taskService).deleteTaskById(taskId);
     }
@@ -209,12 +168,7 @@ class TaskControllerTest {
 
         when(taskService.updateCompletedStatusTaskById(taskId, newStatus)).thenReturn(TaskMapper.toEntity(taskDto));
 
-        mockMvc.perform(patch("/api/tasks/1/status")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"completed\": false}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(taskId))
-                .andExpect(jsonPath("$.completed").value(false));
+        mockMvc.perform(patch("/api/tasks/1/status").contentType(MediaType.APPLICATION_JSON).content("{\"completed\": false}")).andExpect(status().isOk()).andExpect(jsonPath("$.id").value(taskId)).andExpect(jsonPath("$.completed").value(false));
 
         verify(taskService).updateCompletedStatusTaskById(taskId, newStatus);
     }
@@ -222,9 +176,6 @@ class TaskControllerTest {
     @Test
     @DisplayName("PATCH /api/tasks/{id}/status - should return bad request when bad format for completed")
     void givenTaskCompletionRequestDtoInvalid_whenUpdateCompletedStatusTaskById_thenReturnBadRequest() throws Exception {
-        mockMvc.perform(patch("/api/tasks/1/status")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"completed\": notABoolean}"))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(patch("/api/tasks/1/status").contentType(MediaType.APPLICATION_JSON).content("{\"completed\": notABoolean}")).andExpect(status().isBadRequest());
     }
 }

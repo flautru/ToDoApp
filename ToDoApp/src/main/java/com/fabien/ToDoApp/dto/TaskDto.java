@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskDto {
+
     private Long id;
     @NotBlank(message = "Le champ label est obligatoire")
     @Size(max = 50, message = "Le label ne peut depasser les 50 caractères")

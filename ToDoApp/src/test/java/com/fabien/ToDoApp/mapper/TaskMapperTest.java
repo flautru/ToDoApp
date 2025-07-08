@@ -42,7 +42,6 @@ class TaskMapperTest {
         assertNull(taskDto.getLabel());
         assertNull(taskDto.getDescription());
         assertFalse(taskDto.getCompleted());
-
     }
 
     @Test

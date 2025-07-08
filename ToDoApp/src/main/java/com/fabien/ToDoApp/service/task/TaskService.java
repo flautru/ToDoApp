@@ -19,5 +19,4 @@ public interface TaskService {
     Task updateCompletedStatusTaskById(Long id, boolean status);
 
     void deleteTaskById(Long id);
-
 }

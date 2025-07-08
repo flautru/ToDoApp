@@ -19,5 +19,4 @@ public class Task {
     @Column(length = 512)
     private String description;
     private boolean completed;
-
 }

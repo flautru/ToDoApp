@@ -30,7 +30,6 @@ class TaskRepositoryTest {
         List<Task> completedTasks = taskRepository.findByCompleted(true);
 
         assertThat(completedTasks).hasSize(2).extracting(Task::isCompleted).allMatch(completed -> completed);
-
     }
 
     @Test
@@ -47,8 +46,5 @@ class TaskRepositoryTest {
         List<Task> completedTasks = taskRepository.findByCompleted(false);
 
         assertThat(completedTasks).hasSize(2).extracting(Task::isCompleted).allMatch(completed -> !completed);
-
     }
-
-
 }

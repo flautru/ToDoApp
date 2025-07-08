@@ -31,23 +31,19 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public Task updateCompletedStatusTaskById(Long id, boolean status) {
-        return taskRepository.findById(id).
-                map(task -> {
-                    task.setCompleted(status);
-                    return taskRepository.save(task);
-                })
-                .orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
+        return taskRepository.findById(id).map(task -> {
+            task.setCompleted(status);
+            return taskRepository.save(task);
+        }).orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
     }
 
     public Task updateTaskById(Long id, Task task) {
-        return taskRepository.findById(id).
-                map(existingTask -> {
-                    existingTask.setLabel(task.getLabel());
-                    existingTask.setDescription(task.getDescription());
-                    existingTask.setCompleted(task.isCompleted());
-                    return taskRepository.save(existingTask);
-                })
-                .orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
+        return taskRepository.findById(id).map(existingTask -> {
+            existingTask.setLabel(task.getLabel());
+            existingTask.setDescription(task.getDescription());
+            existingTask.setCompleted(task.isCompleted());
+            return taskRepository.save(existingTask);
+        }).orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
     }
 
     public void deleteTaskById(Long id) {

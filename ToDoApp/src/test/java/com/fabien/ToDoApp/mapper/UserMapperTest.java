@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class UserMapperTest {
 
-    private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+    private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @Test
     void givenValidUser_whenMapToDto_thenReturnUserDto() {
@@ -56,7 +56,6 @@ class UserMapperTest {
         assertNull(user.getUsername());
         assertNull(user.getRole());
         assertNull(user.getPassword());
-
     }
 
     @Test
@@ -71,6 +70,5 @@ class UserMapperTest {
         User user = userMapper.toEntity(null);
 
         assertNull(user);
-
     }
 }

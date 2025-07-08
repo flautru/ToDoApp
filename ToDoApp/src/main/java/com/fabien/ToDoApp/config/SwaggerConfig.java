@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customOpenApi(){
-        return new OpenAPI().info(new Info().title("To do application")
-                .description("Documentation des endpoints de l'application To Do Application"));
+    public OpenAPI customOpenApi() {
+        return new OpenAPI().info(new Info().title("To do application").description("Documentation des endpoints de l'application To Do Application"));
     }
 }

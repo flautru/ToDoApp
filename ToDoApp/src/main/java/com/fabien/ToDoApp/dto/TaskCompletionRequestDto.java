@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class TaskCompletionRequestDto {
+
     @NotNull(message = "Le statut est obligatoire")
     private boolean completed;
 }

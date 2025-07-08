@@ -51,8 +51,7 @@ class JwtAuthenticationFilterTest {
         when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
         when(jwtUtils.validateJwtToken(token)).thenReturn(true);
         when(jwtUtils.getUsernameFromJwtToken(token)).thenReturn(username);
-        when(userDetailService.loadUserByUsername(username))
-                .thenReturn(new User(username, "password", List.of(new SimpleGrantedAuthority("ROLE_USER"))));
+        when(userDetailService.loadUserByUsername(username)).thenReturn(new User(username, "password", List.of(new SimpleGrantedAuthority("ROLE_USER"))));
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
 
