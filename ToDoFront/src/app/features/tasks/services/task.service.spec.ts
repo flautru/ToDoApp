@@ -5,7 +5,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Task } from '../model/task.model';
+import { Task } from '../models/task.model';
 
 describe('TaskService', () => {
   let service: TaskService;

@@ -2,7 +2,7 @@ import { of, throwError } from 'rxjs';
 import { TaskService } from '../../services/task.service';
 import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 import { TaskFilterBaseComponent } from './task-filter-base.component';
-import { Task } from '../../model/task.model';
+import { Task } from '../../models/task.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 class TestComponent extends TaskFilterBaseComponent {
@@ -26,7 +26,11 @@ describe('TaskFilterBaseComponent', () => {
   ];
 
   beforeEach(() => {
-    taskServiceMock = jasmine.createSpyObj('TaskService', ['getFilteredTasks', 'updateTaskStatus', 'deleteTask']);
+    taskServiceMock = jasmine.createSpyObj('TaskService', [
+      'getFilteredTasks',
+      'updateTaskStatus',
+      'deleteTask',
+    ]);
     errorHandlerMock = jasmine.createSpyObj('ErrorHandlerService', ['handle']);
     const snackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
     component = new TestComponent(

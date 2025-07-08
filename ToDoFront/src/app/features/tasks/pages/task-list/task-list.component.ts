@@ -10,7 +10,7 @@ import { MatSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskFilterBaseComponent } from '../../components/task-filter-base/task-filter-base.component';
 import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
-import { Task } from '../../model/task.model';
+import { Task } from '../../models/task.model';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({

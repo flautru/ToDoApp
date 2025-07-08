@@ -11,7 +11,7 @@ import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
-import { Task } from '../../model/task.model';
+import { Task } from '../../models/task.model';
 
 describe('TaskListComponent', () => {
   let component: TaskListComponent;

@@ -1,6 +1,6 @@
 import { ErrorHandlerService } from '../../../../core/services/error/error-handler.service';
 import { TaskService } from '../../services/task.service';
-import { Task } from '../../model/task.model';
+import { Task } from '../../models/task.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 export abstract class TaskFilterBaseComponent {
   tasks: Task[] = [];

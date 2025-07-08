@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { LoginService, LoginResponse } from './login.service';
-import { LoginRequest } from '../model/login-request.model';
+import { LoginRequest } from '../models/login-request.model';
 
 describe('LoginService', () => {
   let service: LoginService;

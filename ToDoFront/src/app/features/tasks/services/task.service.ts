@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
-import { Task } from '../model/task.model';
+import { Task } from '../models/task.model';
 
 export interface TaskCompletionRequestDto {
   completed: boolean;
