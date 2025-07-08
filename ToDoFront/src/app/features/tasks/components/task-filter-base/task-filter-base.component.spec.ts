@@ -51,4 +51,28 @@ describe('TaskFilterBaseComponent', () => {
     expect(component.errorMessage).toBe('');
     expect(errorHandlerMock.handle).toHaveBeenCalledWith(jasmine.any(Error), 'Erreur lors de la récupération des tâches');
   });
+
+  it('should set filteredTasks to [] and return if tasks is falsy in filterTasks()', () => {
+    component.tasks = null as any;
+    component.filteredTasks = [ { id: 1, label: 'test', description: 'description', completed: false } ];
+    component.filterTasks();
+    expect(component.filteredTasks).toEqual([]);
+  });
+
+  it('should call errorHandler.handle on updateTaskStatus error', () => {
+    const task = { id: 1, label: 'tâche', description: 'description', completed: false };
+    const error = 'Erreur réseau';
+    taskServiceMock.updateTaskStatus.and.returnValue(throwError(() => error));
+
+    component.toggleCompletedStatus(task);
+
+    expect(errorHandlerMock.handle).toHaveBeenCalledWith(error, 'Échec de la mise à jour du statut');
+  });
+
+  it('should update searchTerm and call filterTasks on onValidateSearch()', () => {
+    spyOn(component, 'filterTasks');
+    component.onValidateSearch('Mon terme');
+    expect(component.searchTerm).toBe('Mon terme');
+    expect(component.filterTasks).toHaveBeenCalled();
+  });
 });
