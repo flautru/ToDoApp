@@ -31,9 +31,11 @@ public class TaskController {
     public ResponseEntity<List<TaskDto>> getAllTasksOrByCompletionStatus(@RequestParam(required = false) Boolean completed) {
         List<TaskDto> taskDtos;
         if (completed != null) {
-            taskDtos = taskService.findTasksByCompletedStatus(completed).stream().map(TaskMapper::toDto).toList();
+            taskDtos = taskService.findTasksByCompletedStatus(completed)
+                    .stream().map(TaskMapper::toDto).toList();
         } else {
-            taskDtos = taskService.findAllTasks().stream().map(TaskMapper::toDto).toList();
+            taskDtos = taskService.findAllTasks()
+                    .stream().map(TaskMapper::toDto).toList();
         }
 
         if (taskDtos.isEmpty()) {

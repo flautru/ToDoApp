@@ -9,8 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +34,40 @@ class UserServiceImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         userService = new UserServiceImpl(userRepository, passwordEncoder);
+    }
+
+    @Test
+    void givenPageable_whenFindAllUsers_thenReturnUserPage() {
+        // Given
+        User user1 = new User(1L, "User1", "pass1", "ROLE_USER");
+        User user2 = new User(2L, "User2", "pass2", "ROLE_ADMIN");
+        Pageable pageable = PageRequest.of(0, 2);
+        Page<User> userPage = new PageImpl<>(List.of(user1, user2), pageable, 2);
+
+        when(userRepository.findAll(pageable)).thenReturn(userPage);
+
+        Page<User> result = userService.findAllUsers(pageable);
+
+        assertNotNull(result);
+        assertEquals(2, result.getTotalElements());
+        assertEquals(1L, result.getContent().get(0).getId());
+        assertEquals("User1", result.getContent().get(0).getUsername());
+        verify(userRepository).findAll(pageable);
+    }
+
+    @Test
+    void givenPageable_whenNoUsers_thenReturnEmptyPage() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<User> emptyPage = Page.empty(pageable);
+
+        when(userRepository.findAll(pageable)).thenReturn(emptyPage);
+
+        Page<User> result = userService.findAllUsers(pageable);
+
+        assertNotNull(result);
+        assertEquals(0, result.getTotalElements());
+        assertTrue(result.getContent().isEmpty());
+        verify(userRepository).findAll(pageable);
     }
 
     @Test

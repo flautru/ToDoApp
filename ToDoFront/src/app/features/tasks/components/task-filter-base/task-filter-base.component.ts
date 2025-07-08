@@ -74,7 +74,6 @@ export abstract class TaskFilterBaseComponent {
   deleteTask(id: number): void {
     this.taskService.deleteTask(id).subscribe({
       next: () => {
-        //this.tasks = this.tasks.filter((task) => task.id !== id);
         this.filteredTasks = this.filteredTasks.filter(
           (task) => task.id !== id,
         );

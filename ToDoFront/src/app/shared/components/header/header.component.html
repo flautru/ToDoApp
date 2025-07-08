@@ -20,6 +20,7 @@
     Utilisateur
   </button>
   <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="goUserList()">Listes</button>
     <button mat-menu-item (click)="logout()">Se déconnecter</button>
   </mat-menu>
 </mat-toolbar>

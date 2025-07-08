@@ -12,7 +12,7 @@
 
 ToDoApp est une application fullstack de gestion de tâches avec authentification sécurisée. Elle permet aux utilisateurs de créer, modifier, supprimer et organiser leurs tâches avec une interface moderne et intuitive.
 
-## Fonctionnalités
+## 🚀Fonctionnalités
 
 ### Gestion des tâches
 - **CRUD complet** : Créer, lire, modifier et supprimer des tâches
@@ -44,28 +44,23 @@ ToDoApp est une application fullstack de gestion de tâches avec authentificatio
 
 ## Technologies utilisées
 
-### Backend
-- **Java 17**
-- **Spring Boot 3.5.3**
-- **Spring Data JPA** (persistance)
-- **Spring Security** (authentification)
-- **H2 Database** (base de données en mémoire)
-- **JWT** (JSON Web Tokens)
-- **Lombok** (réduction du code boilerplate)
-- **MapStruct** (mapping objet-objet)
-- **OpenAPI/Swagger** (documentation API)
-- **JaCoCo** (couverture de code)
+| Backend                      | Frontend                 |
+|-----------------------------|--------------------------|
+| Java 17                     | Angular 19               |
+| Spring Boot 3.5.3           | Angular Material         |
+| Spring Data JPA             | TypeScript               |
+| Spring Security             | RxJS                     |
+| H2 Database (en mémoire)    | Karma + Jasmine (tests)  |
+| JWT (JSON Web Tokens)       |                          |
+| Lombok                      |                          |
+| MapStruct                   |                          |
+| OpenAPI / Swagger           |                          |
+| JaCoCo (couverture code)    |                          |
 
-### Frontend
-- **Angular 19**
-- **Angular Material** (composants UI)
-- **TypeScript**
-- **RxJS**
-- **Karma + Jasmine** (tests)
 
-## Installation et démarrage
+## 🛠️ Installation et démarrage
 
-### Prérequis
+###  Prérequis
 - **Java 17** ou plus récent
 - **Maven 3.6+**
 - **Node.js 18+** et npm
@@ -128,10 +123,10 @@ L'application sera disponible sur `http://localhost:4200`
 - **Vue liste** : Affichage compact en lignes
 - **Vue cartes** : Affichage détaillé en cartes
 
-## API Endpoints
+## 📋 API Endpoints
 
 ### Authentification
-- `POST /api/user/add` - Créer un utilisateur simple permettant de se loguer (dans l'avenir, utiliser plutot un auth/registration)
+- `POST /api/users/add` - Créer un utilisateur simple permettant de se loguer (dans l'avenir, utiliser plutot un auth/registration)
 - `POST /api/auth/login` - Se connecter
 
 ### Tâches
@@ -143,12 +138,18 @@ L'application sera disponible sur `http://localhost:4200`
 - `PATCH /api/taks/{id}/status` - Modifie le completed de la tâche
 - `DELETE /api/tasks/{id}` - Supprimer une tâche
 
+### Users
+- `GET /api/users?page=0&size=2` Récupérer toutes les utilisateurs avec pagination
+- `GET /api/users/{id}` Récupérer un utilisateur en fonction de son Id
+- `POST /api/users/add` - Créer un utilisateur simple permettant de se loguer (dans l'avenir, utiliser plutot un auth/registration avec un Dto Registration)
+- `DELETE /api/users/{id}` Supprime un utilisateur (Dans le cas présent, supprimer l'utilisateur connecter ne déconnecte pas il ne pourra juste plus se connecter)
+
 ### Documentation API
 La documentation complète de l'API est disponible via Swagger UI :
 (Seul endpoint GET /api/tasks est vraiment documenté, laissé par défaut pour les autres pour le moment)
 `http://localhost:8080/swagger-ui.html`
 
-## Tests
+## 🧪 Tests
 
 ### Backend
 ```bash
@@ -165,7 +166,7 @@ npm test
 npm run test -- --code-coverage
 ```
 
-## Structure du projet
+## 📦 Structure du projet
 
 ```
 ToDoApp/
@@ -174,7 +175,7 @@ ToDoApp/
 │   ├── controller/     # Controllers REST
 │   ├── dto/            # Data Transfer Objects
 │   ├── exception/      # GlobalExceptionHandler et custom exception
-│   ├── mapper/         # Mapper 
+│   ├── mapper/         # Mapper
 │   ├── model/          # Entités JPA
 │   ├── repository/     # Repositories JPA
 │   ├── service/        # Logique métier
@@ -217,9 +218,10 @@ ToDoFront/
 - L'application utilise les dernières versions de Spring Boot et Angular
 - La couverture de code est générée automatiquement avec JaCoCo
 
-## Piste d'amélioration
+## ✨ Piste d'amélioration
 
 - Ajouter un champ userId dans les tâches pour que chaque utilisateur puisse avoir ses propres tâches
 - Utilisation des rôles actuellement le rôle des users est inutile, mettre en place un rôle admin qui peut voir les tâches de tous les utilisateurs, ou que seul un admin puisse supprimer une tâche
-- Création du endpoint auth/register afin de creer les utilisateurs plutot que utilisateur add utilisé actuellement
+- Création du endpoint auth/register afin de creer les utilisateurs plutot que utilisateur add utilisé actuellement, et creer un RegistrationDto
 - Création d'un filtrage par label dans le back avec un renvoie par page (actuellement on renvoie toutes les tâches dans le cadre d'une base H2 cela convient mais cela pose problème avec un gros volume de donnée)
+- Empecher la suppression de l'utilisateur connecter, ou alors faire un logout

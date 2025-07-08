@@ -39,6 +39,11 @@ export class HeaderComponent {
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
+
+  goUserList(): void {
+    this.router.navigate(['/users/list']);
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
