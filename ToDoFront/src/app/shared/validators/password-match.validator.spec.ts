@@ -29,4 +29,22 @@ describe('passwordMatchValidator', () => {
 
     expect(form.get('confirmPassword')?.errors).toBeNull();
   });
+
+  it('should remove passwordMismatch error if it existed and passwords now match', () => {
+  const form = new FormGroup(
+    {
+      password: new FormControl('initial'),
+      confirmPassword: new FormControl('mismatch'),
+    },
+    { validators: passwordMatchValidator }
+  );
+
+  form.updateValueAndValidity();
+  expect(form.get('confirmPassword')?.errors).toEqual({ passwordMismatch: true });
+
+  form.get('confirmPassword')?.setValue('initial');
+
+  form.updateValueAndValidity();
+  expect(form.get('confirmPassword')?.errors).toBeNull();
+});
 });
