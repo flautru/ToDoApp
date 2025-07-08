@@ -84,4 +84,32 @@ describe('UserFormComponent', () => {
     expect(component.loading).toBeFalse();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/login']);
   });
+
+  it('should set passwordMismatch error if passwords do not match', () => {
+  component.userForm.setValue({
+    username: 'user',
+    password: 'abc123',
+    confirmPassword: 'different',
+    role: 'user'
+  });
+
+  const confirmPasswordErrors = component.userForm.get('confirmPassword')?.errors;
+  expect(confirmPasswordErrors).toEqual({ passwordMismatch: true });
+});
+
+it('should remove passwordMismatch error if passwords match again', () => {
+  const form = component.userForm;
+  form.setValue({
+    username: 'user',
+    password: 'abc123',
+    confirmPassword: 'wrong',
+    role: 'user'
+  });
+  expect(form.get('confirmPassword')?.errors).toEqual({ passwordMismatch: true });
+
+  form.get('confirmPassword')?.setValue('abc123');
+  form.updateValueAndValidity();
+
+  expect(form.get('confirmPassword')?.errors).toBeNull();
+});
 });

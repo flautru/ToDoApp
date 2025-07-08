@@ -16,8 +16,7 @@ import { MatSpinner } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { MatError, MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { V } from '@angular/cdk/keycodes';
-
+import { passwordMatchValidator } from '../../../../shared/validators/password-match.validator';
 @Component({
   selector: 'app-user-form',
   imports: [
@@ -49,12 +48,12 @@ export class UserFormComponent implements OnInit {
     this.userForm = this.fb.group(
       {
         username: ['', Validators.required],
-        password: ['', [Validators.required, this.passwordMatchValidator]],
+        password: ['', [Validators.required, passwordMatchValidator]],
         confirmPassword: ['', Validators.required],
         role: [''],
       },
       {
-        validators: this.passwordMatchValidator,
+        validators: passwordMatchValidator,
       }
     );
   }
@@ -94,30 +93,5 @@ export class UserFormComponent implements OnInit {
     this.errorMessage = null;
     this.loading = false;
     this.route.navigate(['/login']);
-  }
-
-  passwordMatchValidator(group: FormGroup): { [key: string]: any } | null {
-    const passwordControl = group.get('password');
-    const confirmPasswordControl = group.get('confirmPassword');
-
-    if (!passwordControl || !confirmPasswordControl) return null;
-
-    const password = passwordControl.value;
-    const confirmPassword = confirmPasswordControl.value;
-
-    if (password !== confirmPassword) {
-      confirmPasswordControl.setErrors({ passwordMismatch: true });
-    } else {
-      if (confirmPasswordControl.hasError('passwordMismatch')) {
-        const errors = { ...confirmPasswordControl.errors };
-        delete errors['passwordMismatch'];
-        if (Object.keys(errors).length === 0) {
-          confirmPasswordControl.setErrors(null);
-        } else {
-          confirmPasswordControl.setErrors(errors);
-        }
-      }
-    }
-    return null;
   }
 }
