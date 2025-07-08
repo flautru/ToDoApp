@@ -1,7 +1,10 @@
-[![Backend Build](https://github.com/flautru/ToDoApp/actions/workflows/backend.yml/badge.svg)](https://github.com/flautru/ToDoApp/actions/workflows/backend.yml)
-[![Frontend Build](https://github.com/flautru/ToDoApp/actions/workflows/frontend.yml/badge.svg)](https://github.com/flautru/ToDoApp/actions/workflows/frontend.yml)
 
+### Backend
+[![Backend Build](https://github.com/flautru/ToDoApp/actions/workflows/backend.yml/badge.svg)](https://github.com/flautru/ToDoApp/actions/workflows/backend.yml)
 [![Coverage Backend](https://codecov.io/gh/flautru/ToDoApp/branch/main/graph/badge.svg?flag=backend)](https://codecov.io/gh/flautru/ToDoApp)
+
+### Frontend
+[![Frontend Build](https://github.com/flautru/ToDoApp/actions/workflows/frontend.yml/badge.svg)](https://github.com/flautru/ToDoApp/actions/workflows/frontend.yml)
 [![Coverage Frontend](https://codecov.io/gh/flautru/ToDoApp/branch/main/graph/badge.svg?flag=frontend)](https://codecov.io/gh/flautru/ToDoApp)
 # ToDoApp
 
