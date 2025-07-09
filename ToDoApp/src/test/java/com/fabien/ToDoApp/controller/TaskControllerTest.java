@@ -134,7 +134,7 @@ class TaskControllerTest {
         Long taskId = 99L;
         TaskDto taskDto = new TaskDto(1L, "Task 1", "Desc 1", false);
 
-        when(taskService.updateTaskById(eq(taskId), any(Task.class))).thenThrow(new TaskNotFoundException("Task not found with id : " + taskId));
+        when(taskService.updateTaskById(eq(taskId), any(Task.class))).thenThrow(new TaskNotFoundException(taskId.toString()));
 
         mockMvc.perform(put("/api/tasks/99").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(taskDto))).andExpect(status().isNotFound()).andExpect(content().string("Task not found with id : " + taskId));
 
@@ -153,7 +153,7 @@ class TaskControllerTest {
     @DisplayName("DELETE /api/tasks/{id} - should throw task not found when no found id")
     void givenNonExistingTaskId_whenDeleteTaskById_thenReturnTaskNotFound() throws Exception {
         Long taskId = 99L;
-        doThrow(new TaskNotFoundException("Task not found with id : " + taskId)).when(taskService).deleteTaskById(taskId);
+        doThrow(new TaskNotFoundException(taskId.toString())).when(taskService).deleteTaskById(taskId);
         mockMvc.perform(delete("/api/tasks/99")).andExpect(status().isNotFound());
 
         verify(taskService).deleteTaskById(taskId);

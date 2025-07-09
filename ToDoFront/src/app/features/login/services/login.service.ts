@@ -15,7 +15,6 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    console.log('Login request:', loginRequest);
     return this.http.post<LoginResponse>(
       `${this.apiUrl}/auth/login`,
       loginRequest,

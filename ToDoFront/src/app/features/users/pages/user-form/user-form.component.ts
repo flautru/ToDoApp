@@ -69,7 +69,6 @@ export class UserFormComponent implements OnInit {
 
     this.userService.postUser(userToSend).subscribe({
       next: (user) => {
-        console.log('Utilisateur créé avec succès', user);
         this.loading = false;
         this.userForm.reset();
         this.snackBar.open('Utilisateur créé avec succès', 'Fermer', {

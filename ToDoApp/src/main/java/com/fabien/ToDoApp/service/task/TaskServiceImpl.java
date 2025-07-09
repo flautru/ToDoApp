@@ -23,7 +23,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public Task findTaskById(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
+        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id.toString()));
     }
 
     public Task saveTask(Task task) {
@@ -34,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findById(id).map(task -> {
             task.setCompleted(status);
             return taskRepository.save(task);
-        }).orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
+        }).orElseThrow(() -> new TaskNotFoundException(id.toString()));
     }
 
     public Task updateTaskById(Long id, Task task) {
@@ -43,11 +43,11 @@ public class TaskServiceImpl implements TaskService {
             existingTask.setDescription(task.getDescription());
             existingTask.setCompleted(task.isCompleted());
             return taskRepository.save(existingTask);
-        }).orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
+        }).orElseThrow(() -> new TaskNotFoundException(id.toString()));
     }
 
     public void deleteTaskById(Long id) {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found with id : " + id));
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id.toString()));
         taskRepository.deleteById(id);
     }
 }

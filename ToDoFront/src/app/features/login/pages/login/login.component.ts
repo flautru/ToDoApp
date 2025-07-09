@@ -49,8 +49,6 @@ export class LoginComponent {
     const loginRequest = this.loginForm.value;
     this.loginService.login(loginRequest).subscribe({
       next: (response) => {
-        console.log('Login successful', response);
-        console.log('Token:', response.token);
         localStorage.setItem('token', response.token);
         this.route.navigate(['/tasks/list']);
       },
