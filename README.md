@@ -225,3 +225,4 @@ ToDoFront/
 - Création du endpoint auth/register afin de creer les utilisateurs plutot que utilisateur add utilisé actuellement, et creer un RegistrationDto
 - Création d'un filtrage par label dans le back avec un renvoie par page (actuellement on renvoie toutes les tâches dans le cadre d'une base H2 cela convient mais cela pose problème avec un gros volume de donnée)
 - Empecher la suppression de l'utilisateur connecter, ou alors faire un logout
+- Ajouter un systeme de log avec SL4J
