@@ -2,6 +2,7 @@ package com.fabien.ToDoApp.config;
 
 import com.fabien.ToDoApp.security.CustomUserDetailService;
 import com.fabien.ToDoApp.security.jwt.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,7 +50,11 @@ public class SecurityConfig {
                                 .authenticated())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+        http.exceptionHandling(exception -> exception
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                })
+        );
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
