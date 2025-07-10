@@ -221,7 +221,7 @@ ToDoFront/
 ## ✨ Piste d'amélioration
 
 - Ajouter un champ userId dans les tâches pour que chaque utilisateur puisse avoir ses propres tâches
-- Utilisation des rôles actuellement le rôle des users est inutile, mettre en place un rôle admin qui peut voir les tâches de tous les utilisateurs, ou que seul un admin puisse supprimer une tâche
+- Utilisation des rôles actuellement le rôle des users est inutile mais obligatoire, mettre en place un rôle admin qui peut voir les tâches de tous les utilisateurs, ou que seul un admin puisse supprimer une tâche
 - Création du endpoint auth/register afin de creer les utilisateurs plutot que utilisateur add utilisé actuellement, et creer un RegistrationDto
 - Création d'un filtrage par label dans le back avec un renvoie par page (actuellement on renvoie toutes les tâches dans le cadre d'une base H2 cela convient mais cela pose problème avec un gros volume de donnée)
 - Empecher la suppression de l'utilisateur connecter, ou alors faire un logout
